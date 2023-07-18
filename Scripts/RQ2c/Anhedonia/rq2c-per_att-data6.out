@@ -1,0 +1,1196 @@
+Mplus VERSION 8.8
+MUTHEN & MUTHEN
+07/13/2023  10:27 PM
+
+INPUT INSTRUCTIONS
+
+
+  DATA:
+  FILE IS data6.dat;
+
+  VARIABLE:   NAMES =
+  	    Eth_ID Time Time_between Time_inc
+  	    PA_enth NA_irri NA_verv PA_tevr PA_ener
+       	    PA_kalm NA_nerv PA_daadk NA_verdr
+  	    PA_vrol NA_boos PA_dankb NA_somb PER_att
+      	    PER_refl PER_self PER_expr PER_damp
+  	    PER_codamp PER_capit Sample age_yr gesl BDI
+      	    Measures_valid BDI_anh Anhedonia
+   	    BDI_sum PA NA day compliance;
+
+              USEVARIABLES are PER_att PA NA Anhedonia;
+              MISSING is .;
+              within = PER_att;
+              between = Anhedonia;
+              cluster = Eth_ID;
+              lagged= PA NA(1);
+              tinterval=Time_inc (150);
+
+  DEFINE:     CENTER Anhedonia (grandmean);
+
+  ANALYSIS:   type = twolevel random;
+              estimator = Bayes;
+              biterations=(2000);
+              bconvergence=0.005;
+              thin=2;
+              PROCESSORS=16;
+  MODEL:
+  %WITHIN%
+  sPR_PA | PA on PER_att;
+  sPR_NA | NA on PER_att;
+  sPA_PA | PA on PA&1;
+  sNA_NA | NA on NA&1;
+  [PER_att];
+
+
+  %between%
+  sPR_PA sPR_NA on Anhedonia;
+  PA NA on Anhedonia;
+
+
+  OUTPUT: standardized tech1 tech8 cinterval patterns;
+  PLOT: TYPE = PLOT3;
+
+
+
+*** WARNING in VARIABLE command
+  Note that only the first 8 characters of variable names are used in the output.
+  Shorten variable names to avoid any confusion.
+*** WARNING in PLOT command
+  Note that only the first 8 characters of variable names are used in plots.
+  If variable names are not unique within the first 8 characters, problems
+  may occur.
+*** WARNING
+  One or more individual-level variables have no variation within a
+  cluster for the following clusters.
+
+     Variable   Cluster IDs with no within-cluster variation
+
+      PER_ATT     165
+
+*** WARNING
+  Data set contains cases with missing on all variables.  Cases that appeared before the first
+  case with observed data and that appeared after the last case with observed data were not
+  included in the analysis.  Number of deleted cases:  721
+   4 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                       21373
+
+Number of dependent variables                                    2
+Number of independent variables                                  4
+Number of continuous latent variables                            4
+
+Observed dependent variables
+
+  Continuous
+   PA          NA
+
+Observed independent variables
+   PER_ATT     ANHEDONI    PA&1        NA&1
+
+Continuous latent variables
+   SPR_PA      SPR_NA      SPA_PA      SNA_NA
+
+Variables with special functions
+
+  Cluster variable      ETH_ID
+
+  Within variables
+   PER_ATT     PA&1        NA&1
+
+  Between variables
+   ANHEDONI
+
+  Centering (GRANDMEAN)
+   ANHEDONI
+
+
+Estimator                                                    BAYES
+Specifications for Bayesian Estimation
+  Point estimate                                            MEDIAN
+  Number of Markov chain Monte Carlo (MCMC) chains               2
+  Random seed for the first chain                                0
+  Starting value information                           UNPERTURBED
+  Algorithm used for Markov chain Monte Carlo           GIBBS(PX1)
+  Convergence criterion                                  0.500D-02
+  Maximum number of iterations                               50000
+  K-th iteration used for thinning                               2
+
+Input data file(s)
+  data6.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of clusters                        171
+
+       Size (s)    Cluster ID with Size s
+
+         41        58
+         43        41
+         56        28
+         58        33
+         80        82
+         84        87
+         88        72
+         89        143
+         97        34
+        101        10
+        103        164
+        105        52
+        106        154
+        108        119
+        111        36
+        113        182
+        115        89 131
+        116        15 77 188 75
+        117        11
+        118        57 66 49 16 195
+        119        197 106 149 48 50 92 38 186 163 71
+        120        55 168 98 7 148 192 108 61 165
+        121        189
+        122        174
+        123        127
+        124        161 51 117 184 103
+        125        123 68 13 100 44 105 40 53 112 93 73 54 88 30
+        126        173 76 80 107 120 65 109 111 102 172
+        127        147 177 70 126 86 62 139 115 25 46 67 118 178 193 110
+                   130 104 198 133 32
+        128        59 5 153 18 156 180 96 196 43
+        129        144 3 141 125 146 190 39 187 185 137 116 135 69
+        130        138 14 97 166
+        133        191
+        134        2
+        135        194 63 60 201 183 200
+        136        56 122 26
+        137        155 95 19 42 4 22 9
+        138        94 132 29
+        139        45 79 35 145 21 37 84 114 74
+        142        27
+        143        179
+        144        170 24 171
+        145        20 1 162 124
+        146        151 6 167
+        147        142 31
+        148        176 159
+
+
+
+SUMMARY OF MISSING DATA PATTERNS
+
+     Number of missing data patterns            13
+
+
+     MISSING DATA PATTERNS (x = not missing)
+
+           1  2  3  4  5  6  7  8  9 10 11 12 13
+ PER_ATT   x  x              x     x     x     x
+ PA        x  x        x  x     x  x     x  x
+ NA        x  x        x  x        x  x  x
+ PA&1      x     x     x     x     x        x
+ NA&1      x     x     x     x           x  x
+ ANHEDONI  x  x  x  x  x  x  x  x  x  x  x  x  x
+
+
+     MISSING DATA PATTERN FREQUENCIES
+
+    Pattern   Frequency     Pattern   Frequency     Pattern   Frequency
+          1        4969           6          56          11           1
+          2        3372           7           3          12           1
+          3        3260           8           4          13           1
+          4        9654           9           5
+          5          46          10           1
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              PER_ATT       PA            NA            ANHEDONI
+              ________      ________      ________      ________
+ PER_ATT        0.391
+ PA             0.391         0.396
+ NA             0.391         0.395         0.395
+ ANHEDONI       0.391         0.396         0.395         1.000
+
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     PER_ATT              31.033       0.463       0.000    9.56%       6.000     17.000     27.000
+            8351.000     620.757      -0.874     100.000    0.46%      38.000     55.000
+     PA                   45.640      -0.012       0.000    0.28%      30.857     41.571     46.143
+            8454.000     302.764      -0.229     100.000    0.07%      50.286     60.429
+     NA                   15.074       1.411       0.000    7.07%       5.000      9.333     11.633
+            8450.000     165.978       1.992      80.667    0.01%      14.333     23.000
+     ANHEDONIA             0.000       0.602     -18.109    0.58%      -7.568     -3.001     -0.734
+             171.000      79.140       0.570      30.237    0.58%       1.474      6.309
+
+
+     WARNING: PROBLEMS OCCURRED IN SEVERAL ITERATIONS IN THE COMPUTATION OF THE STANDARDIZED ESTIMATES FOR SEVERAL
+     CLUSTERS. THIS IS MOST LIKELY DUE TO AR COEFFICIENTS GREATER THAN 1 OR PARAMETERS GIVING NON-STATIONARY MODELS.
+     SUCH POSTERIOR DRAWS ARE REMOVED. THE FOLLOWING CLUSTERS HAD SUCH PROBLEMS:
+          33
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+     USE THE FBITERATIONS OPTION TO INCREASE THE NUMBER OF ITERATIONS BY A FACTOR
+     OF AT LEAST TWO TO CHECK CONVERGENCE AND THAT THE PSR VALUE DOES NOT INCREASE.
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                              22
+
+Information Criteria
+
+          Deviance (DIC)                       546959.360
+          Estimated Number of Parameters (pD)   36961.329
+
+
+
+MODEL RESULTS
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+
+Within Level
+
+ NA       WITH
+    PA               -48.448       1.336      0.000     -51.270     -45.949      *
+
+ Means
+    PER_ATT           30.946       0.275      0.000      30.399      31.467      *
+
+ Variances
+    PER_ATT          622.841       9.723      0.000     604.493     642.259      *
+
+ Residual Variances
+    PA               127.933       2.154      0.000     123.760     132.212      *
+    NA                76.528       1.319      0.000      74.062      79.228      *
+
+Between Level
+
+ SPR_PA     ON
+    ANHEDONIA          0.000       0.001      0.434      -0.002       0.003
+
+ SPR_NA     ON
+    ANHEDONIA          0.001       0.001      0.228      -0.001       0.003
+
+ PA         ON
+    ANHEDONIA         -0.422       0.106      0.000      -0.630      -0.205      *
+
+ NA         ON
+    ANHEDONIA          0.159       0.077      0.023       0.003       0.309      *
+
+ NA       WITH
+    PA               -16.091       8.315      0.019     -33.593      -0.837      *
+
+ Means
+    SPA_PA             0.347       0.017      0.000       0.312       0.380      *
+    SNA_NA             0.302       0.018      0.000       0.265       0.337      *
+
+ Intercepts
+    PA                38.580       0.930      0.000      36.783      40.371      *
+    NA                15.618       0.724      0.000      14.133      16.976      *
+    SPR_PA             0.135       0.011      0.000       0.114       0.155      *
+    SPR_NA            -0.004       0.009      0.355      -0.021       0.015
+
+ Variances
+    SPA_PA             0.027       0.005      0.000       0.019       0.038      *
+    SNA_NA             0.031       0.006      0.000       0.022       0.044      *
+
+ Residual Variances
+    PA               113.668      14.690      0.000      88.967     146.979      *
+    NA                68.223       8.823      0.000      53.592      87.108      *
+    SPR_PA             0.010       0.002      0.000       0.007       0.014      *
+    SPR_NA             0.008       0.001      0.000       0.005       0.011      *
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+
+Within-Level Standardized Estimates Averaged Over Clusters
+
+ SPR_PA | PA ON
+    PER_ATT            0.249       0.013      0.000       0.225       0.276      *
+
+ SPA_PA | PA ON
+    PA&1               0.347       0.012      0.000       0.323       0.371      *
+
+ SPR_NA | NA ON
+    PER_ATT           -0.011       0.014      0.227      -0.037       0.017
+
+ SNA_NA | NA ON
+    NA&1               0.302       0.013      0.000       0.276       0.326      *
+
+ NA       WITH
+    PA                -0.490       0.009      0.000      -0.508      -0.472      *
+
+ Means
+    PER_ATT            1.240       0.015      0.000       1.211       1.267      *
+
+ Variances
+    PER_ATT            1.000       0.000      0.000       1.000       1.000
+
+ Residual Variances
+    PA                 0.759       0.009      0.000       0.741       0.777      *
+    NA                 0.833       0.009      0.000       0.815       0.849      *
+
+Between Level
+
+ SPR_PA     ON
+    ANHEDONIA          0.013       0.079      0.434      -0.146       0.164
+
+ SPR_NA     ON
+    ANHEDONIA          0.056       0.076      0.228      -0.093       0.205
+
+ PA         ON
+    ANHEDONIA         -0.243       0.059      0.000      -0.352      -0.120      *
+
+ NA         ON
+    ANHEDONIA          0.121       0.058      0.023       0.002       0.232      *
+
+ NA       WITH
+    PA                -0.183       0.087      0.019      -0.348      -0.010      *
+
+ Means
+    SPA_PA             2.104       0.236      0.000       1.662       2.594      *
+    SNA_NA             1.706       0.201      0.000       1.348       2.140      *
+
+ Intercepts
+    PA                 3.494       0.230      0.000       3.083       3.986      *
+    NA                 1.871       0.142      0.000       1.604       2.157      *
+    SPR_PA             1.341       0.169      0.000       1.049       1.711      *
+    SPR_NA            -0.041       0.102      0.355      -0.240       0.164
+
+ Variances
+    SPA_PA             1.000       0.000      0.000       1.000       1.000
+    SNA_NA             1.000       0.000      0.000       1.000       1.000
+
+ Residual Variances
+    PA                 0.941       0.028      0.000       0.876       0.985      *
+    NA                 0.985       0.015      0.000       0.946       1.000      *
+    SPR_PA             0.997       0.009      0.000       0.968       1.000      *
+    SPR_NA             0.996       0.012      0.000       0.958       1.000      *
+
+
+STDY Standardization
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+
+Within-Level Standardized Estimates Averaged Over Clusters
+
+ SPR_PA | PA ON
+    PER_ATT            0.249       0.013      0.000       0.225       0.276      *
+
+ SPA_PA | PA ON
+    PA&1               0.026       0.001      0.000       0.024       0.028      *
+
+ SPR_NA | NA ON
+    PER_ATT           -0.011       0.014      0.227      -0.037       0.017
+
+ SNA_NA | NA ON
+    NA&1               0.030       0.001      0.000       0.028       0.033      *
+
+ NA       WITH
+    PA                -0.490       0.009      0.000      -0.508      -0.472      *
+
+ Means
+    PER_ATT            1.240       0.015      0.000       1.211       1.267      *
+
+ Variances
+    PER_ATT            1.000       0.000      0.000       1.000       1.000
+
+ Residual Variances
+    PA                 0.759       0.009      0.000       0.741       0.777      *
+    NA                 0.833       0.009      0.000       0.815       0.849      *
+
+Between Level
+
+ SPR_PA     ON
+    ANHEDONIA          0.002       0.012      0.434      -0.023       0.026
+
+ SPR_NA     ON
+    ANHEDONIA          0.009       0.012      0.228      -0.015       0.032
+
+ PA         ON
+    ANHEDONIA         -0.038       0.009      0.000      -0.056      -0.019      *
+
+ NA         ON
+    ANHEDONIA          0.019       0.009      0.023       0.000       0.037      *
+
+ NA       WITH
+    PA                -0.183       0.087      0.019      -0.348      -0.010      *
+
+ Means
+    SPA_PA             2.104       0.236      0.000       1.662       2.594      *
+    SNA_NA             1.706       0.201      0.000       1.348       2.140      *
+
+ Intercepts
+    PA                 3.494       0.230      0.000       3.083       3.986      *
+    NA                 1.871       0.142      0.000       1.604       2.157      *
+    SPR_PA             1.341       0.169      0.000       1.049       1.711      *
+    SPR_NA            -0.041       0.102      0.355      -0.240       0.164
+
+ Variances
+    SPA_PA             1.000       0.000      0.000       1.000       1.000
+    SNA_NA             1.000       0.000      0.000       1.000       1.000
+
+ Residual Variances
+    PA                 0.941       0.028      0.000       0.876       0.985      *
+    NA                 0.985       0.015      0.000       0.946       1.000      *
+    SPR_PA             0.997       0.009      0.000       0.968       1.000      *
+    SPR_NA             0.996       0.012      0.000       0.958       1.000      *
+
+
+STD Standardization
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+
+Within-Level Standardized Estimates Averaged Over Clusters
+
+ SPR_PA | PA ON
+    PER_ATT            0.135       0.007      0.000       0.121       0.149      *
+
+ SPA_PA | PA ON
+    PA&1               0.347       0.012      0.000       0.323       0.371      *
+
+ SPR_NA | NA ON
+    PER_ATT           -0.003       0.006      0.296      -0.014       0.008
+
+ SNA_NA | NA ON
+    NA&1               0.302       0.013      0.000       0.276       0.326      *
+
+ NA       WITH
+    PA               -48.396       1.338      0.000     -51.270     -45.921      *
+
+ Means
+    PER_ATT           30.957       0.277      0.000      30.399      31.468      *
+
+ Variances
+    PER_ATT          622.836       9.741      0.000     604.493     641.958      *
+
+ Residual Variances
+    PA               127.929       2.139      0.000     123.702     132.056      *
+    NA                76.472       1.309      0.000      73.986      79.145      *
+
+Between Level
+
+ SPR_PA     ON
+    ANHEDONIA          0.002       0.012      0.434      -0.023       0.026
+
+ SPR_NA     ON
+    ANHEDONIA          0.009       0.012      0.228      -0.015       0.032
+
+ PA         ON
+    ANHEDONIA         -0.422       0.106      0.000      -0.630      -0.205      *
+
+ NA         ON
+    ANHEDONIA          0.159       0.077      0.023       0.003       0.309      *
+
+ NA       WITH
+    PA               -16.091       8.315      0.019     -33.593      -0.837      *
+
+ Means
+    SPA_PA             2.104       0.236      0.000       1.662       2.594      *
+    SNA_NA             1.706       0.201      0.000       1.348       2.140      *
+
+ Intercepts
+    PA                38.580       0.930      0.000      36.783      40.371      *
+    NA                15.618       0.724      0.000      14.133      16.976      *
+    SPR_PA             1.341       0.169      0.000       1.049       1.711      *
+    SPR_NA            -0.041       0.102      0.355      -0.240       0.164
+
+ Variances
+    SPA_PA             1.000       0.000      0.000       1.000       1.000
+    SNA_NA             1.000       0.000      0.000       1.000       1.000
+
+ Residual Variances
+    PA               113.668      14.690      0.000      88.967     146.979      *
+    NA                68.223       8.823      0.000      53.592      87.108      *
+    SPR_PA             0.997       0.009      0.000       0.968       1.000      *
+    SPR_NA             0.996       0.012      0.000       0.958       1.000      *
+
+
+R-SQUARE
+
+Within-Level R-Square Averaged Across Clusters
+
+                                Posterior  One-Tailed         95% C.I.
+    Variable        Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%
+
+    PA                 0.241       0.009      0.000       0.222       0.259
+    NA                 0.167       0.009      0.000       0.151       0.185
+
+Between Level
+
+                                Posterior  One-Tailed         95% C.I.
+    Variable        Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%
+
+    PA                 0.059       0.028      0.000       0.015       0.124
+    NA                 0.015       0.015      0.000       0.000       0.054
+
+                                Posterior  One-Tailed         95% C.I.
+    Variable        Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%
+
+    SPR_PA             0.003       0.009      0.000       0.000       0.032
+    SPR_NA             0.004       0.012      0.000       0.000       0.042
+
+
+CREDIBILITY INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ NA       WITH
+    PA             -51.863     -51.270     -50.767     -48.448     -46.330     -45.949     -45.226
+
+ Means
+    PER_ATT         30.218      30.399      30.495      30.946      31.393      31.467      31.621
+
+ Variances
+    PER_ATT        599.071     604.493     607.314     622.841     639.331     642.259     649.104
+
+ Residual Variances
+    PA             122.376     123.760     124.389     127.933     131.527     132.212     133.424
+    NA              73.314      74.062      74.465      76.528      78.851      79.228      79.932
+
+Between Level
+
+ SPR_PA   ON
+    ANHEDONIA       -0.003      -0.002      -0.002       0.000       0.002       0.003       0.003
+
+ SPR_NA   ON
+    ANHEDONIA       -0.002      -0.001      -0.001       0.001       0.003       0.003       0.004
+
+ PA       ON
+    ANHEDONIA       -0.689      -0.630      -0.594      -0.422      -0.237      -0.205      -0.133
+
+ NA       ON
+    ANHEDONIA       -0.048       0.003       0.034       0.159       0.283       0.309       0.363
+
+ NA       WITH
+    PA             -40.528     -33.593     -30.349     -16.091      -3.515      -0.837       3.691
+
+ Means
+    SPA_PA           0.299       0.312       0.317       0.347       0.375       0.380       0.392
+    SNA_NA           0.253       0.265       0.272       0.302       0.332       0.337       0.349
+
+ Intercepts
+    PA              36.218      36.783      37.007      38.580      40.095      40.371      40.952
+    NA              13.817      14.133      14.422      15.618      16.790      16.976      17.459
+    SPR_PA           0.106       0.114       0.118       0.135       0.152       0.155       0.163
+    SPR_NA          -0.026      -0.021      -0.018      -0.004       0.011       0.015       0.020
+
+ Variances
+    SPA_PA           0.016       0.019       0.020       0.027       0.036       0.038       0.043
+    SNA_NA           0.019       0.022       0.023       0.031       0.042       0.044       0.049
+
+ Residual Variances
+    PA              82.368      88.967      92.103     113.668     140.360     146.979     158.702
+    NA              49.450      53.592      55.739      68.223      84.527      87.108      95.921
+    SPR_PA           0.006       0.007       0.007       0.010       0.014       0.014       0.016
+    SPR_NA           0.005       0.005       0.006       0.008       0.010       0.011       0.012
+
+
+CREDIBILITY INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ NA       WITH
+    PA               0.000      -0.508       0.000      -0.490       0.000      -0.472       0.000
+
+ Means
+    PER_ATT          0.000       1.211       0.000       1.240       0.000       1.267       0.000
+
+ Variances
+    PER_ATT          0.000       1.000       0.000       1.000       0.000       1.000       0.000
+
+ Residual Variances
+    PA               0.000       0.741       0.000       0.759       0.000       0.777       0.000
+    NA               0.000       0.815       0.000       0.833       0.000       0.849       0.000
+
+Between Level
+
+ SPR_PA   ON
+    ANHEDONIA       -0.195      -0.146      -0.123       0.013       0.139       0.164       0.208
+
+ SPR_NA   ON
+    ANHEDONIA       -0.125      -0.093      -0.070       0.056       0.182       0.205       0.253
+
+ PA       ON
+    ANHEDONIA       -0.382      -0.352      -0.333      -0.243      -0.140      -0.120      -0.073
+
+ NA       ON
+    ANHEDONIA       -0.036       0.002       0.025       0.121       0.213       0.232       0.267
+
+ NA       WITH
+    PA              -0.404      -0.348      -0.326      -0.183      -0.042      -0.010       0.044
+
+ Means
+    SPA_PA           1.574       1.662       1.742       2.104       2.502       2.594       2.809
+    SNA_NA           1.239       1.348       1.397       1.706       2.048       2.140       2.289
+
+ Intercepts
+    PA               2.933       3.083       3.144       3.494       3.886       3.986       4.105
+    NA               1.530       1.604       1.646       1.871       2.115       2.157       2.258
+    SPR_PA           0.976       1.049       1.089       1.341       1.647       1.711       1.876
+    SPR_NA          -0.304      -0.240      -0.206      -0.041       0.124       0.164       0.223
+
+ Variances
+    SPA_PA           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SNA_NA           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    PA               0.854       0.876       0.889       0.941       0.981       0.985       0.995
+    NA               0.929       0.946       0.954       0.985       0.999       1.000       1.000
+    SPR_PA           0.953       0.968       0.976       0.997       1.000       1.000       1.000
+    SPR_NA           0.936       0.958       0.967       0.996       1.000       1.000       1.000
+
+
+STDY Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ NA       WITH
+    PA               0.000      -0.508       0.000      -0.490       0.000      -0.472       0.000
+
+ Means
+    PER_ATT          0.000       1.211       0.000       1.240       0.000       1.267       0.000
+
+ Variances
+    PER_ATT          0.000       1.000       0.000       1.000       0.000       1.000       0.000
+
+ Residual Variances
+    PA               0.000       0.741       0.000       0.759       0.000       0.777       0.000
+    NA               0.000       0.815       0.000       0.833       0.000       0.849       0.000
+
+Between Level
+
+ SPR_PA   ON
+    ANHEDONIA       -0.031      -0.023      -0.019       0.002       0.022       0.026       0.033
+
+ SPR_NA   ON
+    ANHEDONIA       -0.020      -0.015      -0.011       0.009       0.029       0.032       0.040
+
+ PA       ON
+    ANHEDONIA       -0.060      -0.056      -0.053      -0.038      -0.022      -0.019      -0.011
+
+ NA       ON
+    ANHEDONIA       -0.006       0.000       0.004       0.019       0.034       0.037       0.042
+
+ NA       WITH
+    PA              -0.404      -0.348      -0.326      -0.183      -0.042      -0.010       0.044
+
+ Means
+    SPA_PA           1.574       1.662       1.742       2.104       2.502       2.594       2.809
+    SNA_NA           1.239       1.348       1.397       1.706       2.048       2.140       2.289
+
+ Intercepts
+    PA               2.933       3.083       3.144       3.494       3.886       3.986       4.105
+    NA               1.530       1.604       1.646       1.871       2.115       2.157       2.258
+    SPR_PA           0.976       1.049       1.089       1.341       1.647       1.711       1.876
+    SPR_NA          -0.304      -0.240      -0.206      -0.041       0.124       0.164       0.223
+
+ Variances
+    SPA_PA           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SNA_NA           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    PA               0.854       0.876       0.889       0.941       0.981       0.985       0.995
+    NA               0.929       0.946       0.954       0.985       0.999       1.000       1.000
+    SPR_PA           0.953       0.968       0.976       0.997       1.000       1.000       1.000
+    SPR_NA           0.936       0.958       0.967       0.996       1.000       1.000       1.000
+
+
+STD Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ NA       WITH
+    PA               0.000     -51.270       0.000     -48.396       0.000     -45.921       0.000
+
+ Means
+    PER_ATT          0.000      30.399       0.000      30.957       0.000      31.468       0.000
+
+ Variances
+    PER_ATT          0.000     604.493       0.000     622.836       0.000     641.958       0.000
+
+ Residual Variances
+    PA               0.000     123.702       0.000     127.929       0.000     132.056       0.000
+    NA               0.000      73.986       0.000      76.472       0.000      79.145       0.000
+
+Between Level
+
+ SPR_PA   ON
+    ANHEDONIA       -0.031      -0.023      -0.019       0.002       0.022       0.026       0.033
+
+ SPR_NA   ON
+    ANHEDONIA       -0.020      -0.015      -0.011       0.009       0.029       0.032       0.040
+
+ PA       ON
+    ANHEDONIA       -0.689      -0.630      -0.594      -0.422      -0.237      -0.205      -0.133
+
+ NA       ON
+    ANHEDONIA       -0.048       0.003       0.034       0.159       0.283       0.309       0.363
+
+ NA       WITH
+    PA             -40.528     -33.593     -30.349     -16.091      -3.515      -0.837       3.691
+
+ Means
+    SPA_PA           1.574       1.662       1.742       2.104       2.502       2.594       2.809
+    SNA_NA           1.239       1.348       1.397       1.706       2.048       2.140       2.289
+
+ Intercepts
+    PA              36.218      36.783      37.007      38.580      40.095      40.371      40.952
+    NA              13.817      14.133      14.422      15.618      16.790      16.976      17.459
+    SPR_PA           0.976       1.049       1.089       1.341       1.647       1.711       1.876
+    SPR_NA          -0.304      -0.240      -0.206      -0.041       0.124       0.164       0.223
+
+ Variances
+    SPA_PA           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SNA_NA           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    PA              82.368      88.967      92.103     113.668     140.360     146.979     158.702
+    NA              49.450      53.592      55.739      68.223      84.527      87.108      95.921
+    SPR_PA           0.953       0.968       0.976       0.997       1.000       1.000       1.000
+    SPR_NA           0.936       0.958       0.967       0.996       1.000       1.000       1.000
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION FOR WITHIN
+
+
+           NU
+              PER_ATT       PA            NA            PA&1          NA&1
+              ________      ________      ________      ________      ________
+                    0             0             0             0             0
+
+
+           LAMBDA
+              PER_ATT       PA            NA            PA&1          NA&1
+              ________      ________      ________      ________      ________
+ PER_ATT            0             0             0             0             0
+ PA                 0             0             0             0             0
+ NA                 0             0             0             0             0
+ PA&1               0             0             0             0             0
+ NA&1               0             0             0             0             0
+
+
+           THETA
+              PER_ATT       PA            NA            PA&1          NA&1
+              ________      ________      ________      ________      ________
+ PER_ATT            0
+ PA                 0             0
+ NA                 0             0             0
+ PA&1               0             0             0             0
+ NA&1               0             0             0             0             0
+
+
+           ALPHA
+              PER_ATT       PA            NA            PA&1          NA&1
+              ________      ________      ________      ________      ________
+                    1             0             0             0             0
+
+
+           BETA
+              PER_ATT       PA            NA            PA&1          NA&1
+              ________      ________      ________      ________      ________
+ PER_ATT            0             0             0             0             0
+ PA                 0             0             0             0             0
+ NA                 0             0             0             0             0
+ PA&1               0             0             0             0             0
+ NA&1               0             0             0             0             0
+
+
+           PSI
+              PER_ATT       PA            NA            PA&1          NA&1
+              ________      ________      ________      ________      ________
+ PER_ATT            2
+ PA                 0             3
+ NA                 0             4             5
+ PA&1               0             0             0             0
+ NA&1               0             0             0             0             0
+
+
+     PARAMETER SPECIFICATION FOR BETWEEN
+
+
+           NU
+              PA            NA            ANHEDONI
+              ________      ________      ________
+                    0             0             0
+
+
+           LAMBDA
+              SPR_PA        SPR_NA        SPA_PA        SNA_NA        PA
+              ________      ________      ________      ________      ________
+ PA                 0             0             0             0             0
+ NA                 0             0             0             0             0
+ ANHEDONI           0             0             0             0             0
+
+
+           LAMBDA
+              NA            ANHEDONI
+              ________      ________
+ PA                 0             0
+ NA                 0             0
+ ANHEDONI           0             0
+
+
+           THETA
+              PA            NA            ANHEDONI
+              ________      ________      ________
+ PA                 0
+ NA                 0             0
+ ANHEDONI           0             0             0
+
+
+           ALPHA
+              SPR_PA        SPR_NA        SPA_PA        SNA_NA        PA
+              ________      ________      ________      ________      ________
+                    6             7             8             9            10
+
+
+           ALPHA
+              NA            ANHEDONI
+              ________      ________
+                   11             0
+
+
+           BETA
+              SPR_PA        SPR_NA        SPA_PA        SNA_NA        PA
+              ________      ________      ________      ________      ________
+ SPR_PA             0             0             0             0             0
+ SPR_NA             0             0             0             0             0
+ SPA_PA             0             0             0             0             0
+ SNA_NA             0             0             0             0             0
+ PA                 0             0             0             0             0
+ NA                 0             0             0             0             0
+ ANHEDONI           0             0             0             0             0
+
+
+           BETA
+              NA            ANHEDONI
+              ________      ________
+ SPR_PA             0            12
+ SPR_NA             0            13
+ SPA_PA             0             0
+ SNA_NA             0             0
+ PA                 0            14
+ NA                 0            15
+ ANHEDONI           0             0
+
+
+           PSI
+              SPR_PA        SPR_NA        SPA_PA        SNA_NA        PA
+              ________      ________      ________      ________      ________
+ SPR_PA            16
+ SPR_NA             0            17
+ SPA_PA             0             0            18
+ SNA_NA             0             0             0            19
+ PA                 0             0             0             0            20
+ NA                 0             0             0             0            21
+ ANHEDONI           0             0             0             0             0
+
+
+           PSI
+              NA            ANHEDONI
+              ________      ________
+ NA                22
+ ANHEDONI           0             0
+
+
+     STARTING VALUES FOR WITHIN
+
+
+           NU
+              PER_ATT       PA            NA            PA&1          NA&1
+              ________      ________      ________      ________      ________
+                0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              PER_ATT       PA            NA            PA&1          NA&1
+              ________      ________      ________      ________      ________
+ PER_ATT        1.000         0.000         0.000         0.000         0.000
+ PA             0.000         1.000         0.000         0.000         0.000
+ NA             0.000         0.000         1.000         0.000         0.000
+ PA&1           0.000         0.000         0.000         1.000         0.000
+ NA&1           0.000         0.000         0.000         0.000         1.000
+
+
+           THETA
+              PER_ATT       PA            NA            PA&1          NA&1
+              ________      ________      ________      ________      ________
+ PER_ATT        0.000
+ PA             0.000         0.000
+ NA             0.000         0.000         0.000
+ PA&1           0.000         0.000         0.000         0.000
+ NA&1           0.000         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              PER_ATT       PA            NA            PA&1          NA&1
+              ________      ________      ________      ________      ________
+                0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              PER_ATT       PA            NA            PA&1          NA&1
+              ________      ________      ________      ________      ________
+ PER_ATT        0.000         0.000         0.000         0.000         0.000
+ PA             0.000         0.000         0.000         0.000         0.000
+ NA             0.000         0.000         0.000         0.000         0.000
+ PA&1           0.000         0.000         0.000         0.000         0.000
+ NA&1           0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              PER_ATT       PA            NA            PA&1          NA&1
+              ________      ________      ________      ________      ________
+ PER_ATT      310.378
+ PA             0.000       151.382
+ NA             0.000         0.000        82.989
+ PA&1           0.000         0.000         0.000       151.495
+ NA&1           0.000         0.000         0.000         0.000        82.937
+
+
+     STARTING VALUES FOR BETWEEN
+
+
+           NU
+              PA            NA            ANHEDONI
+              ________      ________      ________
+                0.000         0.000         0.000
+
+
+           LAMBDA
+              SPR_PA        SPR_NA        SPA_PA        SNA_NA        PA
+              ________      ________      ________      ________      ________
+ PA             0.000         0.000         0.000         0.000         1.000
+ NA             0.000         0.000         0.000         0.000         0.000
+ ANHEDONI       0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              NA            ANHEDONI
+              ________      ________
+ PA             0.000         0.000
+ NA             1.000         0.000
+ ANHEDONI       0.000         1.000
+
+
+           THETA
+              PA            NA            ANHEDONI
+              ________      ________      ________
+ PA             0.000
+ NA             0.000         0.000
+ ANHEDONI       0.000         0.000         0.000
+
+
+           ALPHA
+              SPR_PA        SPR_NA        SPA_PA        SNA_NA        PA
+              ________      ________      ________      ________      ________
+                0.000         0.000         0.000         0.000        45.640
+
+
+           ALPHA
+              NA            ANHEDONI
+              ________      ________
+               15.074         0.000
+
+
+           BETA
+              SPR_PA        SPR_NA        SPA_PA        SNA_NA        PA
+              ________      ________      ________      ________      ________
+ SPR_PA         0.000         0.000         0.000         0.000         0.000
+ SPR_NA         0.000         0.000         0.000         0.000         0.000
+ SPA_PA         0.000         0.000         0.000         0.000         0.000
+ SNA_NA         0.000         0.000         0.000         0.000         0.000
+ PA             0.000         0.000         0.000         0.000         0.000
+ NA             0.000         0.000         0.000         0.000         0.000
+ ANHEDONI       0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              NA            ANHEDONI
+              ________      ________
+ SPR_PA         0.000         0.000
+ SPR_NA         0.000         0.000
+ SPA_PA         0.000         0.000
+ SNA_NA         0.000         0.000
+ PA             0.000         0.000
+ NA             0.000         0.000
+ ANHEDONI       0.000         0.000
+
+
+           PSI
+              SPR_PA        SPR_NA        SPA_PA        SNA_NA        PA
+              ________      ________      ________      ________      ________
+ SPR_PA         1.000
+ SPR_NA         0.000         1.000
+ SPA_PA         0.000         0.000         1.000
+ SNA_NA         0.000         0.000         0.000         1.000
+ PA             0.000         0.000         0.000         0.000       151.382
+ NA             0.000         0.000         0.000         0.000         0.000
+ ANHEDONI       0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              NA            ANHEDONI
+              ________      ________
+ NA            82.989
+ ANHEDONI       0.000        40.126
+
+
+
+     PRIORS FOR ALL PARAMETERS            PRIOR MEAN      PRIOR VARIANCE     PRIOR STD. DEV.
+
+     Parameter 1~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 2~IG(-1.000,0.000)          infinity            infinity            infinity
+     Parameter 3~IW(0.000,-3)              infinity            infinity            infinity
+     Parameter 4~IW(0.000,-3)              infinity            infinity            infinity
+     Parameter 5~IW(0.000,-3)              infinity            infinity            infinity
+     Parameter 6~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 7~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 8~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 9~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 10~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 11~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 12~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 13~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 14~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 15~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 16~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 17~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 18~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 19~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 20~IW(0.000,-3)             infinity            infinity            infinity
+     Parameter 21~IW(0.000,-3)             infinity            infinity            infinity
+     Parameter 22~IW(0.000,-3)             infinity            infinity            infinity
+
+
+TECHNICAL 8 OUTPUT
+
+
+   TECHNICAL 8 OUTPUT FOR BAYES ESTIMATION
+
+     PROCESSOR    BSEED
+     1            0
+     2            285380
+     3            253358
+     4            93468
+     5            608496
+     6            903420
+     7            195873
+     8            462953
+     9            939021
+     10           127215
+     11           415931
+     12           533738
+     13           107446
+     14           399671
+     15           650371
+     16           27071
+
+                     POTENTIAL       PARAMETER WITH
+     ITERATION    SCALE REDUCTION      HIGHEST PSR
+     100              1.093               6
+     200              1.072               3
+     300              1.123               19
+     400              1.161               19
+     500              1.070               19
+     600              1.014               19
+     700              1.008               5
+     800              1.013               7
+     900              1.016               7
+     1000             1.038               7
+     1100             1.015               7
+     1200             1.017               7
+     1300             1.012               7
+     1400             1.012               6
+     1500             1.011               7
+     1600             1.013               7
+     1700             1.010               7
+     1800             1.008               3
+     1900             1.012               3
+     2000             1.012               9
+     2100             1.015               4
+     2200             1.013               4
+     2300             1.017               4
+     2400             1.009               9
+     2500             1.007               9
+
+
+PLOT INFORMATION
+
+The following plots are available:
+
+  Histograms (sample values)
+  Scatterplots (sample values)
+  Between-level histograms (sample values, sample means/variances)
+  Between-level scatterplots (sample values, sample means/variances)
+  Time series plots (sample values, ACF, PACF)
+  Histogram of subjects per time point
+  Time interval plots
+  Bayesian posterior parameter distributions
+  Bayesian posterior parameter trace plots
+  Bayesian autocorrelation plots
+
+     Beginning Time:  22:27:17
+        Ending Time:  22:29:10
+       Elapsed Time:  00:01:53
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2022 Muthen & Muthen

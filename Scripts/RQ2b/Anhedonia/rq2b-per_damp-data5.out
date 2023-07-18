@@ -1,0 +1,1148 @@
+Mplus VERSION 8.8
+MUTHEN & MUTHEN
+07/13/2023   5:56 PM
+
+INPUT INSTRUCTIONS
+
+
+  DATA:
+  FILE IS data5.dat;
+
+  VARIABLE:   NAMES =
+  	    Eth_ID Time Time_between Time_inc
+  	    PA_enth NA_irri NA_verv PA_tevr PA_ener
+       	    PA_kalm NA_nerv PA_daadk NA_verdr
+  	    PA_vrol NA_boos PA_dankb NA_somb PER_att
+      	    PER_refl PER_self PER_expr PER_damp
+  	    PER_codamp PER_capit Sample age_yr gesl BDI
+      	    Measures_valid BDI_anh Anhedonia
+   	    BDI_sum PA NA day compliance;
+
+              USEVARIABLES are PER_damp PA NA Anhedonia;
+              MISSING is .;
+              within = ;
+              between = Anhedonia;
+              cluster = Eth_ID;
+              lagged= PA NA(1);
+              tinterval=Time_inc (150);
+
+  DEFINE:     CENTER Anhedonia (grandmean);
+
+  ANALYSIS:   type = twolevel random;
+              estimator = Bayes;
+              biterations=(2000);
+  !            bconvergence=0.005;
+              thin=2;
+              PROCESSORS=16;
+  MODEL:
+  %WITHIN%
+  sPA_PR | PER_damp on PA&1;
+  sNA_PR | PER_damp on NA&1;
+  PA on PA&1@0;
+  NA on NA&1@0;
+  PER_damp with PA@0;
+  PER_damp with NA@0;
+
+  %between%
+  sPA_PR sNA_PR on Anhedonia;
+  PER_damp on Anhedonia;
+
+
+  OUTPUT: standardized tech1 tech8 cinterval patterns;
+  PLOT: TYPE = PLOT3;
+
+
+
+*** WARNING in VARIABLE command
+  Note that only the first 8 characters of variable names are used in the output.
+  Shorten variable names to avoid any confusion.
+*** WARNING in MODEL command
+  A y-variable has been declared on the within level but not referred to on
+  the between level.  Please check that this is what is intended.  If this is not intended,
+  specify the variable as a within variable.  Problem with:  PA
+*** WARNING in MODEL command
+  A y-variable has been declared on the within level but not referred to on
+  the between level.  Please check that this is what is intended.  If this is not intended,
+  specify the variable as a within variable.  Problem with:  NA
+*** WARNING in PLOT command
+  Note that only the first 8 characters of variable names are used in plots.
+  If variable names are not unique within the first 8 characters, problems
+  may occur.
+*** WARNING
+  One or more individual-level variables have no variation within a
+  cluster for the following clusters.
+
+     Variable   Cluster IDs with no within-cluster variation
+
+      PER_DAMP    82 71 148 165 127 177 180
+
+*** WARNING
+  Data set contains cases with missing on all variables.  Cases that appeared before the first
+  case with observed data and that appeared after the last case with observed data were not
+  included in the analysis.  Number of deleted cases:  721
+   6 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                       21602
+
+Number of dependent variables                                    3
+Number of independent variables                                  3
+Number of continuous latent variables                            2
+
+Observed dependent variables
+
+  Continuous
+   PER_DAMP    PA          NA
+
+Observed independent variables
+   ANHEDONI    PA&1        NA&1
+
+Continuous latent variables
+   SPA_PR      SNA_PR
+
+Variables with special functions
+
+  Cluster variable      ETH_ID
+
+  Within variables
+   PA&1        NA&1
+
+  Between variables
+   ANHEDONI
+
+  Centering (GRANDMEAN)
+   ANHEDONI
+
+
+Estimator                                                    BAYES
+Specifications for Bayesian Estimation
+  Point estimate                                            MEDIAN
+  Number of Markov chain Monte Carlo (MCMC) chains               2
+  Random seed for the first chain                                0
+  Starting value information                           UNPERTURBED
+  Algorithm used for Markov chain Monte Carlo           GIBBS(PX1)
+  Convergence criterion                                  0.500D-01
+  Maximum number of iterations                               50000
+  K-th iteration used for thinning                               2
+
+Input data file(s)
+  data5.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of clusters                        174
+
+       Size (s)    Cluster ID with Size s
+
+         33        8
+         41        58
+         43        41
+         56        28
+         58        33
+         80        82
+         84        87
+         88        72
+         89        143
+         96        113
+         97        34
+        100        134
+        101        10
+        103        164
+        105        52
+        106        154
+        108        119
+        111        36
+        113        182
+        115        89 131
+        116        15 77 188 75
+        117        11
+        118        57 16 49 66 195
+        119        197 106 149 50 71 92 38 186 163 48
+        120        55 168 108 61 7 192 98 148 165
+        121        189
+        122        174
+        123        127
+        124        161 51 117 184 103
+        125        100 123 105 40 88 53 112 73 54 93 30 44 13 68
+        126        173 109 111 120 80 107 102 65 76 172
+        127        147 177 133 110 62 118 139 25 115 67 46 104 178 193
+                   32 130 126 198 70 86
+        128        59 5 153 96 156 180 43 196 18
+        129        144 125 141 39 3 190 146 116 187 137 185 135 69
+        130        14 138 97 166
+        133        191
+        134        2
+        135        194 63 201 60 183 200
+        136        56 122 26
+        137        155 9 42 4 19 22 95
+        138        29 132 94
+        139        45 145 37 84 21 74 79 114 35
+        142        27
+        143        179
+        144        24 170 171
+        145        20 124 162 1
+        146        151 6 167
+        147        142 31
+        148        176 159
+
+
+
+SUMMARY OF MISSING DATA PATTERNS
+
+     Number of missing data patterns            13
+
+
+     MISSING DATA PATTERNS (x = not missing)
+
+           1  2  3  4  5  6  7  8  9 10 11 12 13
+ PER_DAMP  x  x              x     x     x     x
+ PA        x  x        x  x     x  x     x  x
+ NA        x  x        x  x        x  x  x
+ PA&1      x     x        x  x     x        x
+ NA&1      x     x        x  x           x  x
+ ANHEDONI  x  x  x  x  x  x  x  x  x  x  x  x  x
+
+
+     MISSING DATA PATTERN FREQUENCIES
+
+    Pattern   Frequency     Pattern   Frequency     Pattern   Frequency
+          1        4972           6          58          11           1
+          2        3386           7           3          12           1
+          3        3287           8           4          13           1
+          4        9811           9           5
+          5          72          10           1
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              PER_DAMP      PA            NA            ANHEDONI
+              ________      ________      ________      ________
+ PER_DAMP       0.387
+ PA             0.387         0.393
+ NA             0.387         0.393         0.393
+ ANHEDONI       0.387         0.393         0.393         1.000
+
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     PER_DAMP             11.729       2.116       0.000   22.19%       0.000      5.000      7.000
+            8368.000     226.118       4.577     100.000    0.01%       9.000     18.000
+     PA                   45.662      -0.013       0.000    0.28%      30.857     41.571     46.143
+            8499.000     302.336      -0.230     100.000    0.07%      50.429     60.429
+     NA                   15.113       1.405       0.000    7.03%       5.167      9.333     11.667
+            8495.000     166.005       1.975      80.667    0.01%      14.500     23.167
+     ANHEDONIA             0.000       0.594     -18.144    0.57%      -7.490     -2.873     -0.734
+             174.000      78.072       0.597      30.202    0.57%       1.439      6.150
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+     USE THE FBITERATIONS OPTION TO INCREASE THE NUMBER OF ITERATIONS BY A FACTOR
+     OF AT LEAST TWO TO CHECK CONVERGENCE AND THAT THE PSR VALUE DOES NOT INCREASE.
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                              17
+
+Information Criteria
+
+          Deviance (DIC)                       527138.889
+          Estimated Number of Parameters (pD)   39905.560
+
+
+
+MODEL RESULTS
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+
+Within Level
+
+ PA         ON
+    PA&1               0.000       0.000      1.000       0.000       0.000
+
+ NA         ON
+    NA&1               0.000       0.000      1.000       0.000       0.000
+
+ PER_DAMP WITH
+    PA                 0.000       0.000      1.000       0.000       0.000
+    NA                 0.000       0.000      1.000       0.000       0.000
+
+ NA       WITH
+    PA               -61.769       1.614      0.000     -65.006     -58.651      *
+
+ Residual Variances
+    PER_DAMP          98.305       1.799      0.000      94.937     101.860      *
+    PA               174.890       2.779      0.000     169.564     180.587      *
+    NA                94.626       1.505      0.000      91.639      97.762      *
+
+Between Level
+
+ SPA_PR     ON
+    ANHEDONIA          0.006       0.003      0.020       0.000       0.012      *
+
+ SNA_PR     ON
+    ANHEDONIA          0.005       0.003      0.080      -0.002       0.012
+
+ PER_DAMP   ON
+    ANHEDONIA          0.072       0.095      0.222      -0.112       0.257
+
+ Means
+    PA                45.907       0.867      0.000      44.304      47.687      *
+    NA                15.525       0.677      0.000      14.137      16.877      *
+
+ Intercepts
+    PER_DAMP          12.137       0.827      0.000      10.555      13.818      *
+    SPA_PR             0.024       0.026      0.186      -0.027       0.076
+    SNA_PR             0.152       0.031      0.000       0.090       0.211      *
+
+ Variances
+    PA               132.789      14.563      0.000     107.593     163.345      *
+    NA                76.580       8.765      0.000      61.699      96.420      *
+
+ Residual Variances
+    PER_DAMP         113.952      12.696      0.000      92.604     142.949      *
+    SPA_PR             0.075       0.012      0.000       0.053       0.101      *
+    SNA_PR             0.099       0.019      0.000       0.066       0.138      *
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+
+Within-Level Standardized Estimates Averaged Over Clusters
+
+ SPA_PR | PER_DAMP ON
+    PA&1               0.033       0.017      0.025      -0.001       0.065
+
+ SNA_PR | PER_DAMP ON
+    NA&1               0.127       0.016      0.000       0.094       0.158      *
+
+ PA         ON
+    PA&1               0.000       0.000      1.000       0.000       0.000
+
+ NA         ON
+    NA&1               0.000       0.000      1.000       0.000       0.000
+
+ PER_DAMP WITH
+    PA                 0.000       0.000      1.000       0.000       0.000
+    NA                 0.000       0.000      1.000       0.000       0.000
+
+ NA       WITH
+    PA                -0.480       0.009      0.000      -0.496      -0.463      *
+
+ Residual Variances
+    PER_DAMP           0.855       0.008      0.000       0.839       0.869      *
+    PA                 1.000       0.000      0.000       1.000       1.000
+    NA                 1.000       0.000      0.000       1.000       1.000
+
+Between Level
+
+ SPA_PR     ON
+    ANHEDONIA          0.139       0.066      0.020       0.008       0.266      *
+
+ SNA_PR     ON
+    ANHEDONIA          0.094       0.067      0.080      -0.039       0.228
+
+ PER_DAMP   ON
+    ANHEDONIA          0.043       0.055      0.222      -0.068       0.149
+
+ Means
+    PA                 3.986       0.230      0.000       3.567       4.447      *
+    NA                 1.772       0.127      0.000       1.529       2.029      *
+
+ Intercepts
+    PER_DAMP           1.134       0.097      0.000       0.943       1.331      *
+    SPA_PR             0.085       0.095      0.186      -0.091       0.276
+    SNA_PR             0.481       0.104      0.000       0.275       0.687      *
+
+ Variances
+    PA                 1.000       0.000      0.000       1.000       1.000
+    NA                 1.000       0.000      0.000       1.000       1.000
+
+ Residual Variances
+    PER_DAMP           0.998       0.006      0.000       0.977       1.000      *
+    SPA_PR             0.981       0.019      0.000       0.929       1.000      *
+    SNA_PR             0.991       0.014      0.000       0.948       1.000      *
+
+
+STDY Standardization
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+
+Within-Level Standardized Estimates Averaged Over Clusters
+
+ SPA_PR | PER_DAMP ON
+    PA&1               0.003       0.001      0.025       0.000       0.005
+
+ SNA_PR | PER_DAMP ON
+    NA&1               0.013       0.002      0.000       0.010       0.016      *
+
+ PA         ON
+    PA&1               0.000       0.000      1.000       0.000       0.000
+
+ NA         ON
+    NA&1               0.000       0.000      1.000       0.000       0.000
+
+ PER_DAMP WITH
+    PA                 0.000       0.000      1.000       0.000       0.000
+    NA                 0.000       0.000      1.000       0.000       0.000
+
+ NA       WITH
+    PA                -0.480       0.009      0.000      -0.496      -0.463      *
+
+ Residual Variances
+    PER_DAMP           0.855       0.008      0.000       0.839       0.869      *
+    PA                 1.000       0.000      0.000       1.000       1.000
+    NA                 1.000       0.000      0.000       1.000       1.000
+
+Between Level
+
+ SPA_PR     ON
+    ANHEDONIA          0.022       0.011      0.020       0.001       0.042      *
+
+ SNA_PR     ON
+    ANHEDONIA          0.015       0.011      0.080      -0.006       0.036
+
+ PER_DAMP   ON
+    ANHEDONIA          0.007       0.009      0.222      -0.011       0.024
+
+ Means
+    PA                 3.986       0.230      0.000       3.567       4.447      *
+    NA                 1.772       0.127      0.000       1.529       2.029      *
+
+ Intercepts
+    PER_DAMP           1.134       0.097      0.000       0.943       1.331      *
+    SPA_PR             0.085       0.095      0.186      -0.091       0.276
+    SNA_PR             0.481       0.104      0.000       0.275       0.687      *
+
+ Variances
+    PA                 1.000       0.000      0.000       1.000       1.000
+    NA                 1.000       0.000      0.000       1.000       1.000
+
+ Residual Variances
+    PER_DAMP           0.998       0.006      0.000       0.977       1.000      *
+    SPA_PR             0.981       0.019      0.000       0.929       1.000      *
+    SNA_PR             0.991       0.014      0.000       0.948       1.000      *
+
+
+STD Standardization
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+
+Within-Level Standardized Estimates Averaged Over Clusters
+
+ SPA_PR | PER_DAMP ON
+    PA&1               0.023       0.015      0.064      -0.007       0.050
+
+ SNA_PR | PER_DAMP ON
+    NA&1               0.152       0.019      0.000       0.113       0.190      *
+
+ PA         ON
+    PA&1               0.000       0.000      1.000       0.000       0.000
+
+ NA         ON
+    NA&1               0.000       0.000      1.000       0.000       0.000
+
+ PER_DAMP WITH
+    PA                 0.000       0.000      1.000       0.000       0.000
+    NA                 0.000       0.000      1.000       0.000       0.000
+
+ NA       WITH
+    PA               -61.769       1.614      0.000     -65.006     -58.651      *
+
+ Residual Variances
+    PER_DAMP          98.305       1.799      0.000      94.937     101.860      *
+    PA               174.890       2.779      0.000     169.564     180.587      *
+    NA                94.626       1.505      0.000      91.639      97.762      *
+
+Between Level
+
+ SPA_PR     ON
+    ANHEDONIA          0.022       0.011      0.020       0.001       0.042      *
+
+ SNA_PR     ON
+    ANHEDONIA          0.015       0.011      0.080      -0.006       0.036
+
+ PER_DAMP   ON
+    ANHEDONIA          0.072       0.095      0.222      -0.112       0.257
+
+ Means
+    PA                45.907       0.867      0.000      44.304      47.687      *
+    NA                15.525       0.677      0.000      14.137      16.877      *
+
+ Intercepts
+    PER_DAMP          12.137       0.827      0.000      10.555      13.818      *
+    SPA_PR             0.085       0.095      0.186      -0.091       0.276
+    SNA_PR             0.481       0.104      0.000       0.275       0.687      *
+
+ Variances
+    PA               132.789      14.563      0.000     107.593     163.345      *
+    NA                76.580       8.765      0.000      61.699      96.420      *
+
+ Residual Variances
+    PER_DAMP         113.952      12.696      0.000      92.604     142.949      *
+    SPA_PR             0.981       0.019      0.000       0.929       1.000      *
+    SNA_PR             0.991       0.014      0.000       0.948       1.000      *
+
+
+R-SQUARE
+
+Within-Level R-Square Averaged Across Clusters
+
+                                Posterior  One-Tailed         95% C.I.
+    Variable        Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%
+
+    PER_DAMP           0.145       0.008      0.000       0.131       0.161
+    PA                 0.000       0.000      1.000       0.000       0.000
+    NA                 0.000       0.000      1.000       0.000       0.000
+
+Between Level
+
+                                Posterior  One-Tailed         95% C.I.
+    Variable        Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%
+
+    PER_DAMP           0.002       0.006      0.000       0.000       0.022
+
+                                Posterior  One-Tailed         95% C.I.
+    Variable        Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%
+
+    SPA_PR             0.019       0.019      0.000       0.000       0.071
+    SNA_PR             0.009       0.014      0.000       0.000       0.052
+
+
+CREDIBILITY INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ PA       ON
+    PA&1             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ NA       ON
+    NA&1             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ PER_DAMP WITH
+    PA               0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    NA               0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ NA       WITH
+    PA             -66.229     -65.006     -64.443     -61.769     -59.072     -58.651     -57.737
+
+ Residual Variances
+    PER_DAMP        93.823      94.937      95.469      98.305     101.304     101.860     103.105
+    PA             168.320     169.564     170.404     174.890     179.569     180.587     182.073
+    NA              90.906      91.639      92.143      94.626      97.166      97.762      98.671
+
+Between Level
+
+ SPA_PR   ON
+    ANHEDONIA       -0.001       0.000       0.001       0.006       0.011       0.012       0.014
+
+ SNA_PR   ON
+    ANHEDONIA       -0.004      -0.002      -0.001       0.005       0.010       0.012       0.013
+
+ PER_DAMP ON
+    ANHEDONIA       -0.171      -0.112      -0.080       0.072       0.232       0.257       0.310
+
+ Means
+    PA              43.701      44.304      44.554      45.907      47.360      47.687      48.287
+    NA              13.752      14.137      14.401      15.525      16.641      16.877      17.273
+
+ Intercepts
+    PER_DAMP        10.158      10.555      10.828      12.137      13.543      13.818      14.266
+    SPA_PR          -0.050      -0.027      -0.019       0.024       0.066       0.076       0.092
+    SNA_PR           0.073       0.090       0.101       0.152       0.202       0.211       0.232
+
+ Variances
+    PA             101.843     107.593     111.329     132.789     158.396     163.345     174.526
+    NA              58.050      61.699      63.993      76.580      93.058      96.420     101.353
+
+ Residual Variances
+    PER_DAMP        87.807      92.604      95.212     113.952     137.285     142.949     152.803
+    SPA_PR           0.047       0.053       0.056       0.075       0.096       0.101       0.111
+    SNA_PR           0.058       0.066       0.072       0.099       0.132       0.138       0.150
+
+
+CREDIBILITY INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ PA       ON
+    PA&1             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ NA       ON
+    NA&1             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ PER_DAMP WITH
+    PA               0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    NA               0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ NA       WITH
+    PA               0.000      -0.496       0.000      -0.480       0.000      -0.463       0.000
+
+ Residual Variances
+    PER_DAMP         0.000       0.839       0.000       0.855       0.000       0.869       0.000
+    PA               0.000       1.000       0.000       1.000       0.000       1.000       0.000
+    NA               0.000       1.000       0.000       1.000       0.000       1.000       0.000
+
+Between Level
+
+ SPA_PR   ON
+    ANHEDONIA       -0.031       0.008       0.027       0.139       0.244       0.266       0.302
+
+ SNA_PR   ON
+    ANHEDONIA       -0.078      -0.039      -0.017       0.094       0.207       0.228       0.264
+
+ PER_DAMP ON
+    ANHEDONIA       -0.099      -0.068      -0.047       0.043       0.134       0.149       0.178
+
+ Means
+    PA               3.432       3.567       3.625       3.986       4.387       4.447       4.576
+    NA               1.436       1.529       1.569       1.772       1.983       2.029       2.089
+
+ Intercepts
+    PER_DAMP         0.893       0.943       0.976       1.134       1.293       1.331       1.390
+    SPA_PR          -0.167      -0.091      -0.069       0.085       0.248       0.276       0.346
+    SNA_PR           0.223       0.275       0.309       0.481       0.655       0.687       0.752
+
+ Variances
+    PA               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    NA               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    PER_DAMP         0.968       0.977       0.982       0.998       1.000       1.000       1.000
+    SPA_PR           0.907       0.929       0.940       0.981       0.999       1.000       1.000
+    SNA_PR           0.930       0.948       0.957       0.991       1.000       1.000       1.000
+
+
+STDY Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ PA       ON
+    PA&1             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ NA       ON
+    NA&1             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ PER_DAMP WITH
+    PA               0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    NA               0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ NA       WITH
+    PA               0.000      -0.496       0.000      -0.480       0.000      -0.463       0.000
+
+ Residual Variances
+    PER_DAMP         0.000       0.839       0.000       0.855       0.000       0.869       0.000
+    PA               0.000       1.000       0.000       1.000       0.000       1.000       0.000
+    NA               0.000       1.000       0.000       1.000       0.000       1.000       0.000
+
+Between Level
+
+ SPA_PR   ON
+    ANHEDONIA       -0.005       0.001       0.004       0.022       0.039       0.042       0.048
+
+ SNA_PR   ON
+    ANHEDONIA       -0.012      -0.006      -0.003       0.015       0.033       0.036       0.042
+
+ PER_DAMP ON
+    ANHEDONIA       -0.016      -0.011      -0.008       0.007       0.021       0.024       0.028
+
+ Means
+    PA               3.432       3.567       3.625       3.986       4.387       4.447       4.576
+    NA               1.436       1.529       1.569       1.772       1.983       2.029       2.089
+
+ Intercepts
+    PER_DAMP         0.893       0.943       0.976       1.134       1.293       1.331       1.390
+    SPA_PR          -0.167      -0.091      -0.069       0.085       0.248       0.276       0.346
+    SNA_PR           0.223       0.275       0.309       0.481       0.655       0.687       0.752
+
+ Variances
+    PA               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    NA               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    PER_DAMP         0.968       0.977       0.982       0.998       1.000       1.000       1.000
+    SPA_PR           0.907       0.929       0.940       0.981       0.999       1.000       1.000
+    SNA_PR           0.930       0.948       0.957       0.991       1.000       1.000       1.000
+
+
+STD Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ PA       ON
+    PA&1             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ NA       ON
+    NA&1             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ PER_DAMP WITH
+    PA               0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    NA               0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ NA       WITH
+    PA               0.000     -65.006       0.000     -61.769       0.000     -58.651       0.000
+
+ Residual Variances
+    PER_DAMP         0.000      94.937       0.000      98.305       0.000     101.860       0.000
+    PA               0.000     169.564       0.000     174.890       0.000     180.587       0.000
+    NA               0.000      91.639       0.000      94.626       0.000      97.762       0.000
+
+Between Level
+
+ SPA_PR   ON
+    ANHEDONIA       -0.005       0.001       0.004       0.022       0.039       0.042       0.048
+
+ SNA_PR   ON
+    ANHEDONIA       -0.012      -0.006      -0.003       0.015       0.033       0.036       0.042
+
+ PER_DAMP ON
+    ANHEDONIA       -0.171      -0.112      -0.080       0.072       0.232       0.257       0.310
+
+ Means
+    PA              43.701      44.304      44.554      45.907      47.360      47.687      48.287
+    NA              13.752      14.137      14.401      15.525      16.641      16.877      17.273
+
+ Intercepts
+    PER_DAMP        10.158      10.555      10.828      12.137      13.543      13.818      14.266
+    SPA_PR          -0.167      -0.091      -0.069       0.085       0.248       0.276       0.346
+    SNA_PR           0.223       0.275       0.309       0.481       0.655       0.687       0.752
+
+ Variances
+    PA             101.843     107.593     111.329     132.789     158.396     163.345     174.526
+    NA              58.050      61.699      63.993      76.580      93.058      96.420     101.353
+
+ Residual Variances
+    PER_DAMP        87.807      92.604      95.212     113.952     137.285     142.949     152.803
+    SPA_PR           0.907       0.929       0.940       0.981       0.999       1.000       1.000
+    SNA_PR           0.930       0.948       0.957       0.991       1.000       1.000       1.000
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION FOR WITHIN
+
+
+           NU
+              PER_DAMP      PA            NA            PA&1          NA&1
+              ________      ________      ________      ________      ________
+                    0             0             0             0             0
+
+
+           LAMBDA
+              PER_DAMP      PA            NA            PA&1          NA&1
+              ________      ________      ________      ________      ________
+ PER_DAMP           0             0             0             0             0
+ PA                 0             0             0             0             0
+ NA                 0             0             0             0             0
+ PA&1               0             0             0             0             0
+ NA&1               0             0             0             0             0
+
+
+           THETA
+              PER_DAMP      PA            NA            PA&1          NA&1
+              ________      ________      ________      ________      ________
+ PER_DAMP           0
+ PA                 0             0
+ NA                 0             0             0
+ PA&1               0             0             0             0
+ NA&1               0             0             0             0             0
+
+
+           ALPHA
+              PER_DAMP      PA            NA            PA&1          NA&1
+              ________      ________      ________      ________      ________
+                    0             0             0             0             0
+
+
+           BETA
+              PER_DAMP      PA            NA            PA&1          NA&1
+              ________      ________      ________      ________      ________
+ PER_DAMP           0             0             0             0             0
+ PA                 0             0             0             0             0
+ NA                 0             0             0             0             0
+ PA&1               0             0             0             0             0
+ NA&1               0             0             0             0             0
+
+
+           PSI
+              PER_DAMP      PA            NA            PA&1          NA&1
+              ________      ________      ________      ________      ________
+ PER_DAMP           1
+ PA                 0             2
+ NA                 0             3             4
+ PA&1               0             0             0             0
+ NA&1               0             0             0             0             0
+
+
+     PARAMETER SPECIFICATION FOR BETWEEN
+
+
+           NU
+              PER_DAMP      PA            NA            ANHEDONI
+              ________      ________      ________      ________
+                    0             0             0             0
+
+
+           LAMBDA
+              SPA_PR        SNA_PR        PER_DAMP      PA            NA
+              ________      ________      ________      ________      ________
+ PER_DAMP           0             0             0             0             0
+ PA                 0             0             0             0             0
+ NA                 0             0             0             0             0
+ ANHEDONI           0             0             0             0             0
+
+
+           LAMBDA
+              ANHEDONI
+              ________
+ PER_DAMP           0
+ PA                 0
+ NA                 0
+ ANHEDONI           0
+
+
+           THETA
+              PER_DAMP      PA            NA            ANHEDONI
+              ________      ________      ________      ________
+ PER_DAMP           0
+ PA                 0             0
+ NA                 0             0             0
+ ANHEDONI           0             0             0             0
+
+
+           ALPHA
+              SPA_PR        SNA_PR        PER_DAMP      PA            NA
+              ________      ________      ________      ________      ________
+                    5             6             7             8             9
+
+
+           ALPHA
+              ANHEDONI
+              ________
+                    0
+
+
+           BETA
+              SPA_PR        SNA_PR        PER_DAMP      PA            NA
+              ________      ________      ________      ________      ________
+ SPA_PR             0             0             0             0             0
+ SNA_PR             0             0             0             0             0
+ PER_DAMP           0             0             0             0             0
+ PA                 0             0             0             0             0
+ NA                 0             0             0             0             0
+ ANHEDONI           0             0             0             0             0
+
+
+           BETA
+              ANHEDONI
+              ________
+ SPA_PR            10
+ SNA_PR            11
+ PER_DAMP          12
+ PA                 0
+ NA                 0
+ ANHEDONI           0
+
+
+           PSI
+              SPA_PR        SNA_PR        PER_DAMP      PA            NA
+              ________      ________      ________      ________      ________
+ SPA_PR            13
+ SNA_PR             0            14
+ PER_DAMP           0             0            15
+ PA                 0             0             0            16
+ NA                 0             0             0             0            17
+ ANHEDONI           0             0             0             0             0
+
+
+           PSI
+              ANHEDONI
+              ________
+ ANHEDONI           0
+
+
+     STARTING VALUES FOR WITHIN
+
+
+           NU
+              PER_DAMP      PA            NA            PA&1          NA&1
+              ________      ________      ________      ________      ________
+                0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              PER_DAMP      PA            NA            PA&1          NA&1
+              ________      ________      ________      ________      ________
+ PER_DAMP       1.000         0.000         0.000         0.000         0.000
+ PA             0.000         1.000         0.000         0.000         0.000
+ NA             0.000         0.000         1.000         0.000         0.000
+ PA&1           0.000         0.000         0.000         1.000         0.000
+ NA&1           0.000         0.000         0.000         0.000         1.000
+
+
+           THETA
+              PER_DAMP      PA            NA            PA&1          NA&1
+              ________      ________      ________      ________      ________
+ PER_DAMP       0.000
+ PA             0.000         0.000
+ NA             0.000         0.000         0.000
+ PA&1           0.000         0.000         0.000         0.000
+ NA&1           0.000         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              PER_DAMP      PA            NA            PA&1          NA&1
+              ________      ________      ________      ________      ________
+                0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              PER_DAMP      PA            NA            PA&1          NA&1
+              ________      ________      ________      ________      ________
+ PER_DAMP       0.000         0.000         0.000         0.000         0.000
+ PA             0.000         0.000         0.000         0.000         0.000
+ NA             0.000         0.000         0.000         0.000         0.000
+ PA&1           0.000         0.000         0.000         0.000         0.000
+ NA&1           0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              PER_DAMP      PA            NA            PA&1          NA&1
+              ________      ________      ________      ________      ________
+ PER_DAMP     113.059
+ PA             0.000       151.168
+ NA             0.000         0.000        83.003
+ PA&1           0.000         0.000         0.000       151.307
+ NA&1           0.000         0.000         0.000         0.000        82.922
+
+
+     STARTING VALUES FOR BETWEEN
+
+
+           NU
+              PER_DAMP      PA            NA            ANHEDONI
+              ________      ________      ________      ________
+                0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              SPA_PR        SNA_PR        PER_DAMP      PA            NA
+              ________      ________      ________      ________      ________
+ PER_DAMP       0.000         0.000         1.000         0.000         0.000
+ PA             0.000         0.000         0.000         1.000         0.000
+ NA             0.000         0.000         0.000         0.000         1.000
+ ANHEDONI       0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              ANHEDONI
+              ________
+ PER_DAMP       0.000
+ PA             0.000
+ NA             0.000
+ ANHEDONI       1.000
+
+
+           THETA
+              PER_DAMP      PA            NA            ANHEDONI
+              ________      ________      ________      ________
+ PER_DAMP       0.000
+ PA             0.000         0.000
+ NA             0.000         0.000         0.000
+ ANHEDONI       0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              SPA_PR        SNA_PR        PER_DAMP      PA            NA
+              ________      ________      ________      ________      ________
+                0.000         0.000        11.729        45.662        15.113
+
+
+           ALPHA
+              ANHEDONI
+              ________
+                0.000
+
+
+           BETA
+              SPA_PR        SNA_PR        PER_DAMP      PA            NA
+              ________      ________      ________      ________      ________
+ SPA_PR         0.000         0.000         0.000         0.000         0.000
+ SNA_PR         0.000         0.000         0.000         0.000         0.000
+ PER_DAMP       0.000         0.000         0.000         0.000         0.000
+ PA             0.000         0.000         0.000         0.000         0.000
+ NA             0.000         0.000         0.000         0.000         0.000
+ ANHEDONI       0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              ANHEDONI
+              ________
+ SPA_PR         0.000
+ SNA_PR         0.000
+ PER_DAMP       0.000
+ PA             0.000
+ NA             0.000
+ ANHEDONI       0.000
+
+
+           PSI
+              SPA_PR        SNA_PR        PER_DAMP      PA            NA
+              ________      ________      ________      ________      ________
+ SPA_PR         1.000
+ SNA_PR         0.000         1.000
+ PER_DAMP       0.000         0.000       113.059
+ PA             0.000         0.000         0.000       151.168
+ NA             0.000         0.000         0.000         0.000        83.003
+ ANHEDONI       0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              ANHEDONI
+              ________
+ ANHEDONI      39.798
+
+
+
+     PRIORS FOR ALL PARAMETERS            PRIOR MEAN      PRIOR VARIANCE     PRIOR STD. DEV.
+
+     Parameter 1~IG(-1.000,0.000)          infinity            infinity            infinity
+     Parameter 2~IW(0.000,-3)              infinity            infinity            infinity
+     Parameter 3~IW(0.000,-3)              infinity            infinity            infinity
+     Parameter 4~IW(0.000,-3)              infinity            infinity            infinity
+     Parameter 5~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 6~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 7~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 8~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 9~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 10~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 11~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 12~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 13~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 14~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 15~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 16~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 17~IG(-1.000,0.000)         infinity            infinity            infinity
+
+
+TECHNICAL 8 OUTPUT
+
+
+   TECHNICAL 8 OUTPUT FOR BAYES ESTIMATION
+
+     PROCESSOR    BSEED
+     1            0
+     2            285380
+     3            253358
+     4            93468
+     5            608496
+     6            903420
+     7            195873
+     8            462953
+     9            939021
+     10           127215
+     11           415931
+     12           533738
+     13           107446
+     14           399671
+     15           650371
+     16           27071
+
+                     POTENTIAL       PARAMETER WITH
+     ITERATION    SCALE REDUCTION      HIGHEST PSR
+     100              1.115               13
+     200              1.025               1
+     300              1.074               13
+     400              1.063               2
+     500              1.081               13
+     600              1.046               1
+     700              1.042               14
+     800              1.068               14
+     900              1.057               14
+     1000             1.095               14
+     1100             1.085               14
+     1200             1.064               13
+     1300             1.083               13
+     1400             1.069               13
+     1500             1.044               13
+     1600             1.020               13
+     1700             1.008               5
+     1800             1.008               6
+     1900             1.009               6
+     2000             1.012               6
+
+
+PLOT INFORMATION
+
+The following plots are available:
+
+  Histograms (sample values)
+  Scatterplots (sample values)
+  Between-level histograms (sample values, sample means/variances)
+  Between-level scatterplots (sample values, sample means/variances)
+  Time series plots (sample values, ACF, PACF)
+  Histogram of subjects per time point
+  Time interval plots
+  Bayesian posterior parameter distributions
+  Bayesian posterior parameter trace plots
+  Bayesian autocorrelation plots
+
+     Beginning Time:  17:56:59
+        Ending Time:  17:58:17
+       Elapsed Time:  00:01:18
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2022 Muthen & Muthen
