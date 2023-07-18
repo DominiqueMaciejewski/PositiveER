@@ -1129,7 +1129,7 @@ for (var in hist_variables) {
 # does not seem to be a big issue for most variables!
 
 
-### Table 2: Descriptives ----------------------------------
+### Table 1: Descriptives ----------------------------------
 
 # Add item formulations
 item_form_ER <- c("I consciously noticed and paid attention to my feelings", #Attention
@@ -1142,7 +1142,7 @@ item_form_ER <- c("I consciously noticed and paid attention to my feelings", #At
 
 # bind all results, sort by Variable and add ER strategy names, 
 # drop variable column, sort by ER strategy as presented in paper
-res_table2 <- arrange(cbind(results_desc, results_per, results_ICC), Variable) %>%
+res_table1 <- arrange(cbind(results_desc, results_per, results_ICC), Variable) %>%
   cbind(ER_strategy, item_form_ER, .) %>%
   select(-contains("Variable")) %>%
   arrange(factor(ER_strategy, levels = c('Attention', 'Savoring', 'Self_focus', 
@@ -1152,7 +1152,7 @@ res_table2 <- arrange(cbind(results_desc, results_per, results_ICC), Variable) %
 
 
 
-print(res_table2)
+print(res_table1)
 
 # Information for note table
 ## Identify rows where p_value > 0.05
@@ -1170,17 +1170,17 @@ max(significant_rows$abs_t_value)
 max(significant_rows$p_value)
 
 ## make table 
-table_2 <- nice_table(res_table2,
-                      italics = seq(res_table2),
+table_1 <- nice_table(res_table1,
+                      italics = seq(res_table1),
                       stars = FALSE,
-                      title = c("Table 2", "Descriptive Statistics for the Positive ER Strategies"),
+                      title = c("Table 1", "Descriptive Statistics for the Positive ER Strategies"),
                       note = c("ER = Emotion regulation, M = Mean, SD = Standard Deviation, Min = Minimum, Max = Maximum, ICC = Intra-Class Correlation.",
                                "Mean, SD between, minimum and maximum represent the descriptives of the person-aggregated scores for each ER strategy. The within-person SD for each ER strategy represents the within-strategy variability. Paired-samplt t-tests indicated that mean levels of self-focus and capitalization did not significantly differ from each other (t = 1.30, p = .19), all other mean levels were significantly different (t’s ranging between 3.01 and 20.17, all ps < .003)).",
                                "Note that in the pre-registration, we accidentally said we would conduct one-sample t-tests for comparing the different ER strategies, although this should have been paired sample t-tests."
                       )
 )
 
-table_2 <- table_2 %>%
+table_1 <- table_1 %>%
   set_header_labels(
     ER_strategy = "ER strategy",
     item_form_ER = "Wording",
@@ -1190,13 +1190,13 @@ table_2 <- table_2 %>%
     Percentage_Below_10 = "% <10 responses",
     ICC_adjusted = "ICC")
 
-print(table_2)
+print(table_1)
 
 ## save table as word file
-flextable::save_as_docx(table_2, path = here("Tables", "table_2.docx"))
+flextable::save_as_docx(table_1, path = here("Tables", "table_1.docx"))
 
 
-### Table 3: Correlations ----------------------------------
+### Table 2: Correlations ----------------------------------
 
 # define variables for cor-matrix
 studyvars<-c("PER_att", "PER_refl", "PER_self",
@@ -1242,35 +1242,35 @@ p_stars<-cbind(studyvars,p_stars)
 p_stars$variables <- NULL
 
 # Create a copy of the original dataframe
-res_table3 <- as.data.frame(tibble_a)
-colnames(res_table3)[1] <- "variables"
+res_table2 <- as.data.frame(tibble_a)
+colnames(res_table2)[1] <- "variables"
 
 # Loop through the dataframe and add stars from p_stars based on the criteria
-for (i in 1:nrow(res_table3)) {
-  for (j in 1:ncol(res_table3)) {
+for (i in 1:nrow(res_table2)) {
+  for (j in 1:ncol(res_table2)) {
     if (!is.na(p_stars[i, j])) {
       if (p_stars[i, j] %in% c("***", "**", "*")) {
-        res_table3[i, j] <- paste(res_table3[i, j], p_stars[i, j], sep = "")
+        res_table2[i, j] <- paste(res_table2[i, j], p_stars[i, j], sep = "")
       }
     }
   }
 }
 
 # Sort studyvariables for merging
-res_table3<-arrange(res_table3, studyvars)
+res_table2<-arrange(res_table2, studyvars)
 
 # bind all results, sort by Variable and add ER strategy names, 
 # drop variable column, sort by ER strategy as presented in paper
-res_table3 <- cbind(ER_strategy,res_table3) %>%
+res_table2 <- cbind(ER_strategy,res_table2) %>%
   select(-contains("variables")) %>%
   arrange(factor(ER_strategy, levels = c('Attention', 'Savoring', 'Self_focus', 
                                          'Expression', 'Capitalization', 'Dampening', 'Co_dampening')))
 
 ## make table 
-table_3 <- nice_table(res_table3,
-                      italics = seq(res_table3),
+table_2 <- nice_table(res_table2,
+                      italics = seq(res_table2),
                       stars = FALSE,
-                      title = c("Table 3", "Within-person and between-person correlation of ER strategies"),
+                      title = c("Table 2", "Within-person and between-person correlation of ER strategies"),
                       note = c("ER = Emotion regulation. Above the diagonal represent the within-person correlations, below the diagonal between-person correlations.",
                                "* p < .05, ** p < .01, *** p < .001"
                       )
@@ -1278,7 +1278,7 @@ table_3 <- nice_table(res_table3,
 
 
 
-table_3 <- table_3 %>%
+table_2 <- table_2 %>%
   set_header_labels(
     ER_strategy = "ER strategy",
     PER_att = "1.",
@@ -1289,12 +1289,12 @@ table_3 <- table_3 %>%
     PER_damp = "6.",
     PER_codamp = "7.")
 
-print(table_3)
+print(table_2)
 
 ## save table as word file
-flextable::save_as_docx(table_3, path = here("Tables", "table_3.docx"))
+flextable::save_as_docx(table_2, path = here("Tables", "table_2.docx"))
 
-### Table 4: Influence of Emotions t-1 -> ER t ----------------------------------
+### Table 3: Influence of Emotions t-1 -> ER t ----------------------------------
 ## Main effects of Emotions t-1 -> ER t (Hypothesis 1b)
 ## Main effects of Anhedonia -> ER t (Hypothesis 2a)
 ## Moderation effects of Emotions t-1*Anhedonia -> ER t (Hypothesis 2b)
@@ -1304,7 +1304,78 @@ Results1b<-filter_data0(estimates_df_RQ1b)
 Results2a<-filter_data0(estimates_df_RQ2a)
 Results2b<-filter_data0(estimates_df_RQ2b)
 
-res_table4<-cbind(Results1b,Results2a,Results2b)
+res_table3<-cbind(Results1b,Results2a,Results2b)
+
+# Add ER_strategy column
+res_table3<-cbind(ER_strategy,res_table3)
+
+# Re-arrange table
+res_table3 <- res_table3 %>%
+  arrange(factor(ER_strategy, levels = c('Attention', 'Savoring', 'Self_focus', 'Expression', 'Capitalization', 'Dampening', 'Co_dampening')))
+
+# Transpose and restructure the estimates dataframe so that ER strategies are the columns
+# Create an empty dataframe
+res_table3_t <- data.frame(stringsAsFactors = FALSE, row.names = c(1L:5L))
+
+# Add the ER column
+res_table3_t$ER <- c("Positive emotions t-1 on ER t","Negative emotions t-1 on ER t",
+                     "Anhedonia on ER t",
+                     "Positive emotions t-1*Anhedonia on ER t", "Negative emotions t-1*Anhedonia on ER t")
+
+
+
+# Loop through the variables and add the columns to the dataframe
+for (i in 1:length(variables)) {
+  for (j in 1:length(columns)) {
+    column_name <- paste0(variables[i], ".", columns[j])
+    res_table3_t[, column_name] <- c(res_table3[i, paste0("PA.", columns[j])],
+                                     res_table3[i, paste0("NA.", columns[j])],
+                                     res_table3[i, paste0("An.", columns[j])],
+                                     res_table3[i, paste0("PAModAn.", columns[j])],
+                                     res_table3[i, paste0("NAModAn.", columns[j])])
+  }
+}
+
+# Print the transformed dataframe
+print(res_table3_t)
+
+# Rounding columns with .est and .SE
+res_table3_t <- round_columns(res_table3_t)
+
+# Restructure table so that est(SE) are in the same column (for the table)
+res_table3_transformed <- restructure_table(res_table3_t)
+print(res_table3_transformed)
+
+## make table with multilevel headers
+## see https://rempsyc.remi-theriault.com/articles/table#special-situation-multilevel-headers
+
+table_3 <- nice_table(res_table3_transformed,
+                      separate.header = TRUE,
+                      italics = seq(res_table3_transformed),
+                      stars = FALSE,
+                      title = c("Table 3", "Emotions at t-1 and the Use of Positive ER Strategies at t - Within-Person Effects and Moderation by Anhedonia"),
+                      note = c("ER = Emotion regulation. Estimates are within-level standardized.",
+                               "Effects that were significant after applying the FDR correction (p < .01984) are displayed in bold."))
+
+print(table_3)
+
+## save table as word file
+flextable::save_as_docx(table_3, path = here("Tables", "table_3.docx"))
+
+
+
+
+### Table 4: Influence of ER t -> Emotions t (controlled for depression) ----------------------------------
+## Main effects of ER t -> Emotions t (Hypothesis 1b)
+## Main effects of Anhedonia/Depression -> Emotions t (not hypothesized, but included for moderation)
+## Moderation effects of ER t*Anhedonia/Depression -> Emotions t (Hypothesis 2b)
+
+# Bind all results
+# Note that the main effects from anhedonia on emotions was tested in model 2c
+Results1c<-filter_data0(estimates_df_RQ1c)
+Results2c<-filter_data0(estimates_df_RQ2c)
+
+res_table4<-cbind(Results1c,Results2c)
 
 # Add ER_strategy column
 res_table4<-cbind(ER_strategy,res_table4)
@@ -1315,12 +1386,12 @@ res_table4 <- res_table4 %>%
 
 # Transpose and restructure the estimates dataframe so that ER strategies are the columns
 # Create an empty dataframe
-res_table4_t <- data.frame(stringsAsFactors = FALSE, row.names = c(1L:5L))
+res_table4_t <- data.frame(stringsAsFactors = FALSE, row.names = c(1L:6L))
 
 # Add the ER column
-res_table4_t$ER <- c("Positive emotions t-1 on ER t","Negative emotions t-1 on ER t",
-                     "Anhedonia on ER t",
-                     "Positive emotions t-1*Anhedonia on ER t", "Negative emotions t-1*Anhedonia on ER t")
+res_table4_t$ER <- c("ER t on positive emotions t","ER t on negative emotions t",
+                     "Anhedonia on positive emotions", "Anhedonia on negative emotions",
+                     "ER t*Anhedonia on positive emotions t", "ER t*Anhedonia on negative emotions t")
 
 
 
@@ -1330,7 +1401,8 @@ for (i in 1:length(variables)) {
     column_name <- paste0(variables[i], ".", columns[j])
     res_table4_t[, column_name] <- c(res_table4[i, paste0("PA.", columns[j])],
                                      res_table4[i, paste0("NA.", columns[j])],
-                                     res_table4[i, paste0("An.", columns[j])],
+                                     res_table4[i, paste0("AnPA.", columns[j])],
+                                     res_table4[i, paste0("AnNA.", columns[j])],
                                      res_table4[i, paste0("PAModAn.", columns[j])],
                                      res_table4[i, paste0("NAModAn.", columns[j])])
   }
@@ -1353,7 +1425,7 @@ table_4 <- nice_table(res_table4_transformed,
                       separate.header = TRUE,
                       italics = seq(res_table4_transformed),
                       stars = FALSE,
-                      title = c("Table 4", "Emotions at t-1 and the Use of Positive ER Strategies at t - Within-Person Effects and Moderation by Anhedonia"),
+                      title = c("Table 4", "Use of Positive ER strategies at t and Emotions at t - Within-Person Effects and Moderation by Anhedonia"),
                       note = c("ER = Emotion regulation. Estimates are within-level standardized.",
                                "Effects that were significant after applying the FDR correction (p < .01984) are displayed in bold."))
 
@@ -1362,8 +1434,7 @@ print(table_4)
 ## save table as word file
 flextable::save_as_docx(table_4, path = here("Tables", "table_4.docx"))
 
-
-### Table 5: Influence of Emotions t-1 -> ER t (controlled for depression) ----------------------------------
+### Supplementary Table 1: Influence of Emotions t-1 -> ER t (controlled for depression) ----------------------------------
 ## Main effects of Emotions t-1 -> ER t (Hypothesis 1b)
 ## Main effects of Anhedonia/Depression -> ER t (Hypothesis 2a)
 ## Moderation effects of Emotions t-1*Anhedonia/Depression -> ER t (Hypothesis 2b)
@@ -1373,24 +1444,24 @@ Results1b<-filter_data0(estimates_df_RQ1b)
 Results2a_contdep<-filter_data0(estimates_df_RQ2a_contdep)
 Results2b_contdep<-filter_data0(estimates_df_RQ2b_contdep)
 
-res_table5<-cbind(Results1b,Results2a_contdep,Results2b_contdep)
+res_tablesup1<-cbind(Results1b,Results2a_contdep,Results2b_contdep)
 
 # Add ER_strategy column
-res_table5<-cbind(ER_strategy,res_table5)
+res_tablesup1<-cbind(ER_strategy,res_tablesup1)
 
 # Re-arrange table
-res_table5 <- res_table5 %>%
+res_tablesup1 <- res_tablesup1 %>%
   arrange(factor(ER_strategy, levels = c('Attention', 'Savoring', 'Self_focus', 'Expression', 'Capitalization', 'Dampening', 'Co_dampening')))
 
 # Transpose and restructure the estimates dataframe so that ER strategies are the columns
 # Create an empty dataframe
-res_table5_t <- data.frame(stringsAsFactors = FALSE, row.names = c(1L:8L))
+res_tablesup1_t <- data.frame(stringsAsFactors = FALSE, row.names = c(1L:8L))
 
 # Add the ER column
-res_table5_t$ER <- c("Positive emotions t-1 on ER t","Negative emotions t-1 on ER t",
-                     "Anhedonia on ER t", "Depression on ER t",
-                     "Positive emotions t-1*Anhedonia on ER t", "Negative emotions t-1*Anhedonia on ER t",
-                     "Positive emotions t-1*Depression on ER t", "Negative emotions t-1*Depression on ER t")
+res_tablesup1_t$ER <- c("Positive emotions t-1 on ER t","Negative emotions t-1 on ER t",
+                        "Anhedonia on ER t", "Depression on ER t",
+                        "Positive emotions t-1*Anhedonia on ER t", "Negative emotions t-1*Anhedonia on ER t",
+                        "Positive emotions t-1*Depression on ER t", "Negative emotions t-1*Depression on ER t")
 
 
 
@@ -1398,114 +1469,45 @@ res_table5_t$ER <- c("Positive emotions t-1 on ER t","Negative emotions t-1 on E
 for (i in 1:length(variables)) {
   for (j in 1:length(columns)) {
     column_name <- paste0(variables[i], ".", columns[j])
-    res_table5_t[, column_name] <- c(res_table5[i, paste0("PA.", columns[j])],
-                                     res_table5[i, paste0("NA.", columns[j])],
-                                     res_table5[i, paste0("An.", columns[j])],
-                                     res_table5[i, paste0("Dep.", columns[j])],
-                                     res_table5[i, paste0("PAModAn.", columns[j])],
-                                     res_table5[i, paste0("NAModAn.", columns[j])],
-                                     res_table5[i, paste0("PAModDep.", columns[j])],
-                                     res_table5[i, paste0("NAModDep.", columns[j])])
+    res_tablesup1_t[, column_name] <- c(res_tablesup1[i, paste0("PA.", columns[j])],
+                                        res_tablesup1[i, paste0("NA.", columns[j])],
+                                        res_tablesup1[i, paste0("An.", columns[j])],
+                                        res_tablesup1[i, paste0("Dep.", columns[j])],
+                                        res_tablesup1[i, paste0("PAModAn.", columns[j])],
+                                        res_tablesup1[i, paste0("NAModAn.", columns[j])],
+                                        res_tablesup1[i, paste0("PAModDep.", columns[j])],
+                                        res_tablesup1[i, paste0("NAModDep.", columns[j])])
   }
 }
 
 # Print the transformed dataframe
-print(res_table5_t)
+print(res_tablesup1_t)
 
 # Rounding columns with .est and .SE
-res_table5_t <- round_columns(res_table5_t)
+res_tablesup1_t <- round_columns(res_tablesup1_t)
 
 # Restructure table so that est(SE) are in the same column (for the table)
-res_table5_transformed <- restructure_table(res_table5_t)
-print(res_table5_transformed)
+res_tablesup1_transformed <- restructure_table(res_tablesup1_t)
+print(res_tablesup1_transformed)
 
 ## make table with multilevel headers
 ## see https://rempsyc.remi-theriault.com/articles/table#special-situation-multilevel-headers
 
-table_5 <- nice_table(res_table5_transformed,
-                      separate.header = TRUE,
-                      italics = seq(res_table5_transformed),
-                      stars = FALSE,
-                      title = c("Table 5", "Emotions at t-1 and the Use of Positive ER Strategies at t - Within-Person Effects and Moderation by Anhedonia and Depression"),
-                      note = c("ER = Emotion regulation. Estimates are within-level standardized.",
-                               "Effects that were significant after applying the FDR correction (p < .01984) are displayed in bold."))
+table_sup1 <- nice_table(res_tablesup1_transformed,
+                         separate.header = TRUE,
+                         italics = seq(res_tablesup1_transformed),
+                         stars = FALSE,
+                         title = c("Supplementary Table 1", "Emotions at t-1 and the Use of Positive ER Strategies at t - Within-Person Effects and Moderation by Anhedonia and Depression"),
+                         note = c("ER = Emotion regulation. Estimates are within-level standardized.",
+                                  "Effects that were significant after applying the FDR correction (p < .01984) are displayed in bold."))
 
-print(table_5)
-
-## save table as word file
-flextable::save_as_docx(table_5, path = here("Tables", "table_5.docx"))
-
-
-### Table 6: Influence of ER t -> Emotions t (controlled for depression) ----------------------------------
-## Main effects of ER t -> Emotions t (Hypothesis 1b)
-## Main effects of Anhedonia/Depression -> Emotions t (not hypothesized, but included for moderation)
-## Moderation effects of ER t*Anhedonia/Depression -> Emotions t (Hypothesis 2b)
-
-# Bind all results
-# Note that the main effects from anhedonia on emotions was tested in model 2c
-Results1c<-filter_data0(estimates_df_RQ1c)
-Results2c<-filter_data0(estimates_df_RQ2c)
-
-res_table6<-cbind(Results1c,Results2c)
-
-# Add ER_strategy column
-res_table6<-cbind(ER_strategy,res_table6)
-
-# Re-arrange table
-res_table6 <- res_table6 %>%
-  arrange(factor(ER_strategy, levels = c('Attention', 'Savoring', 'Self_focus', 'Expression', 'Capitalization', 'Dampening', 'Co_dampening')))
-
-# Transpose and restructure the estimates dataframe so that ER strategies are the columns
-# Create an empty dataframe
-res_table6_t <- data.frame(stringsAsFactors = FALSE, row.names = c(1L:6L))
-
-# Add the ER column
-res_table6_t$ER <- c("ER t on positive emotions t","ER t on negative emotions t",
-                     "Anhedonia on positive emotions", "Anhedonia on negative emotions",
-                     "ER t*Anhedonia on positive emotions t", "ER t*Anhedonia on negative emotions t")
-
-
-
-# Loop through the variables and add the columns to the dataframe
-for (i in 1:length(variables)) {
-  for (j in 1:length(columns)) {
-    column_name <- paste0(variables[i], ".", columns[j])
-    res_table6_t[, column_name] <- c(res_table6[i, paste0("PA.", columns[j])],
-                                     res_table6[i, paste0("NA.", columns[j])],
-                                     res_table6[i, paste0("AnPA.", columns[j])],
-                                     res_table6[i, paste0("AnNA.", columns[j])],
-                                     res_table6[i, paste0("PAModAn.", columns[j])],
-                                     res_table6[i, paste0("NAModAn.", columns[j])])
-  }
-}
-
-# Print the transformed dataframe
-print(res_table6_t)
-
-# Rounding columns with .est and .SE
-res_table6_t <- round_columns(res_table6_t)
-
-# Restructure table so that est(SE) are in the same column (for the table)
-res_table6_transformed <- restructure_table(res_table6_t)
-print(res_table6_transformed)
-
-## make table with multilevel headers
-## see https://rempsyc.remi-theriault.com/articles/table#special-situation-multilevel-headers
-
-table_6 <- nice_table(res_table6_transformed,
-                      separate.header = TRUE,
-                      italics = seq(res_table6_transformed),
-                      stars = FALSE,
-                      title = c("Table 6", "Use of Positive ER strategies at t and Emotions at t - Within-Person Effects and Moderation by Anhedonia"),
-                      note = c("ER = Emotion regulation. Estimates are within-level standardized.",
-                               "Effects that were significant after applying the FDR correction (p < .01984) are displayed in bold."))
-
-print(table_6)
+print(table_sup1)
 
 ## save table as word file
-flextable::save_as_docx(table_6, path = here("Tables", "table_6.docx"))
+flextable::save_as_docx(table_sup1, path = here("Tables", "table_sup1.docx"))
 
-### Table 7: Influence of Emotions t-1 -> Emotions t (controlled for depression) ----------------------------------
+
+### Supplementary Table 2: Influence of Emotions t-1 -> Emotions t (controlled for depression) ----------------------------------
 ## Main effects of Emotions t-1 -> Emotions t (Hypothesis 1b)
 ## Main effects of Anhedonia/Depression -> Emotions t (Hypothesis 2a)
 ## Moderation effects of ER t*Anhedonia/Depression -> Emotions t (Hypothesis 2b)
@@ -1515,21 +1517,21 @@ flextable::save_as_docx(table_6, path = here("Tables", "table_6.docx"))
 Results1c<-filter_data0(estimates_df_RQ1c)
 Results2c_contdep<-filter_data0(estimates_df_RQ2c_contdep)
 
-res_table7<-cbind(Results1c,Results2c_contdep)
+res_tablesup2<-cbind(Results1c,Results2c_contdep)
 
 # Add ER_strategy column
-res_table7<-cbind(ER_strategy,res_table7)
+res_tablesup2<-cbind(ER_strategy,res_tablesup2)
 
 # Re-arrange table
-res_table7 <- res_table7 %>%
+res_tablesup2 <- res_tablesup2 %>%
   arrange(factor(ER_strategy, levels = c('Attention', 'Savoring', 'Self_focus', 'Expression', 'Capitalization', 'Dampening', 'Co_dampening')))
 
 # Transpose and restructure the estimates dataframe so that ER strategies are the columns
 # Create an empty dataframe
-res_table7_t <- data.frame(stringsAsFactors = FALSE, row.names = c(1L:10L))
+res_tablesup2_t <- data.frame(stringsAsFactors = FALSE, row.names = c(1L:10L))
 
 # Add the ER column
-res_table7_t$ER <- c("ER t on positive emotions t","ER t on negative emotions t",
+res_tablesup2_t$ER <- c("ER t on positive emotions t","ER t on negative emotions t",
                      "Anhedonia on positive emotions", "Anhedonia on negative emotions",
                      "Depression on positive emotions", "Depression on negative emotions",
                      "ER t*Anhedonia on positive emotions t", "ER t*Anhedonia on negative emotions t",
@@ -1541,37 +1543,37 @@ res_table7_t$ER <- c("ER t on positive emotions t","ER t on negative emotions t"
 for (i in 1:length(variables)) {
   for (j in 1:length(columns)) {
     column_name <- paste0(variables[i], ".", columns[j])
-    res_table7_t[, column_name] <- c(res_table7[i, paste0("PA.", columns[j])],
-                                     res_table7[i, paste0("NA.", columns[j])],
-                                     res_table7[i, paste0("AnPA.", columns[j])],
-                                     res_table7[i, paste0("AnNA.", columns[j])],
-                                     res_table7[i, paste0("DepPA.", columns[j])],
-                                     res_table7[i, paste0("DepNA.", columns[j])],
-                                     res_table7[i, paste0("PAModAn.", columns[j])],
-                                     res_table7[i, paste0("NAModAn.", columns[j])],
-                                     res_table7[i, paste0("PAModDep.", columns[j])],
-                                     res_table7[i, paste0("NAModDep.", columns[j])])
+    res_tablesup2_t[, column_name] <- c(res_tablesup2[i, paste0("PA.", columns[j])],
+                                     res_tablesup2[i, paste0("NA.", columns[j])],
+                                     res_tablesup2[i, paste0("AnPA.", columns[j])],
+                                     res_tablesup2[i, paste0("AnNA.", columns[j])],
+                                     res_tablesup2[i, paste0("DepPA.", columns[j])],
+                                     res_tablesup2[i, paste0("DepNA.", columns[j])],
+                                     res_tablesup2[i, paste0("PAModAn.", columns[j])],
+                                     res_tablesup2[i, paste0("NAModAn.", columns[j])],
+                                     res_tablesup2[i, paste0("PAModDep.", columns[j])],
+                                     res_tablesup2[i, paste0("NAModDep.", columns[j])])
   }
 }
 
 # Print the transformed dataframe
-print(res_table7_t)
+print(res_tablesup2_t)
 
 # Rounding columns with .est and .SE
-res_table7_t <- round_columns(res_table7_t)
+res_tablesup2_t <- round_columns(res_tablesup2_t)
 
 # Restructure table so that est(SE) are in the same column (for the table)
-res_table7_transformed <- restructure_table(res_table7_t)
-print(res_table7_transformed)
+res_tablesup2_transformed <- restructure_table(res_tablesup2_t)
+print(res_tablesup2_transformed)
 
 ## make table with multilevel headers
 ## see https://rempsyc.remi-theriault.com/articles/table#special-situation-multilevel-headers
 
-table_7 <- nice_table(res_table7_transformed,
+table_7 <- nice_table(res_tablesup2_transformed,
                       separate.header = TRUE,
-                      italics = seq(res_table7_transformed),
+                      italics = seq(res_tablesup2_transformed),
                       stars = FALSE,
-                      title = c("Table 7", "Use of Positive ER strategies at t and Emotions at t - Within-Person Effects and Moderation by Anhedonia and Depression"),
+                      title = c("Supplementary Table 2", "Use of Positive ER strategies at t and Emotions at t - Within-Person Effects and Moderation by Anhedonia and Depression"),
                       note = c("ER = Emotion regulation. Estimates are within-level standardized.",
                                "Effects that were significant after applying the FDR correction (p < .01984) are displayed in bold."))
 
