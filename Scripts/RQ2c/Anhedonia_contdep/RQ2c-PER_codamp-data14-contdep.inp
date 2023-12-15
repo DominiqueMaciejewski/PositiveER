@@ -1,0 +1,47 @@
+
+DATA:
+FILE IS data14.dat;
+
+VARIABLE:   NAMES = 
+	    Eth_ID Time Time_between Time_inc 
+	    PA_enth NA_irri NA_verv PA_tevr PA_ener
+     	    PA_kalm NA_nerv PA_daadk NA_verdr 
+	    PA_vrol NA_boos PA_dankb NA_somb PER_att
+    	    PER_refl PER_self PER_expr PER_damp 
+	    PER_codamp PER_capit Sample age_yr gesl BDI
+    	    Measures_valid BDI_anh Anhedonia 
+ 	    BDI_sum PA NA day compliance; 
+
+            USEVARIABLES are PER_codamp PA NA Anhedonia BDI_sum ;
+            MISSING is .;
+            within = PER_codamp;
+            between = Anhedonia BDI_sum;
+            cluster = Eth_ID;
+            lagged= PA NA(1);
+            tinterval=Time_inc (150);     
+
+
+DEFINE:     CENTER Anhedonia BDI_sum (grandmean);    
+               
+ANALYSIS:   type = twolevel random;
+            estimator = Bayes;
+            biterations=(2000);
+            bconvergence=0.005;
+            thin=2;
+            PROCESSORS=16;
+MODEL:
+%WITHIN%
+sPR_PA | PA on PER_codamp; 
+sPR_NA | NA on PER_codamp; 
+sPA_PA | PA on PA&1; 
+sNA_NA | NA on NA&1; 
+[PER_codamp];
+ 
+
+%between%
+sPR_PA sPR_NA on Anhedonia BDI_sum ;
+PA NA on Anhedonia BDI_sum ;
+
+
+OUTPUT: standardized tech1 tech8 cinterval patterns;
+PLOT: TYPE = PLOT3;
