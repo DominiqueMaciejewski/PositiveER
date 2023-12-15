@@ -1,36 +1,26 @@
----
-editor_options: 
-  markdown: 
-    wrap: sentence
----
-
 # Positive ER in Daily Life
 
-This is the GitHub Repo for the Analyses for the Paper "Positive Emotion Regulation in Daily Life: Associations with Momentary Emotions and Anhedonia"." The data uploaded here have been anonymized by replacing the ID number with another random ID number and rounding age to years without decimals.
+This is the GitHub Repo for the Analyses for the Paper "Positive Emotion Regulation in Daily Life: Associations with Momentary Emotions and Anhedonia".
+
+The data uploaded here have been anonymized by replacing the ID number with another random ID number and rounding age to years without decimals.
 
 If you have any questions, anything is unclear and/or you find a mistake, please do not hesitate to contact me under [d.f.maciejewski\@tilburguniversity.edu](mailto:d.f.maciejewski@tilburguniversity.edu){.email}.
 
 ## Main Directory
-
-Here you can find these files:
-
-`2023_7_18_Rcode_PositiveER.R` contains the code.
-The file `2023_7_18_Rcode_PositiveER.R` contains the knitted document including the results.
 
 | Filename                           | Description                                       |
 |------------------------------|--------------------------------------|
 | `.gitignore`                       | Gitignore file                                    |
 | `2023_7_18_Rcode_PositiveER.R`     | R code to reproduce all results                   |
 | `2023_7_18_Rcode_PositiveER.html`  | Knitted version of the code                       |
+| `Mplus Models.logRun`              | Mplus log file                                    |
 | `PositiveER_Analyses.Rproj`        | RProject                                          |
 | `README.md`                        | Readme for Github page                            |
 | `correlation.xlxs`                 | Output of between- and within-person correlations |
 
-## Folder: data
+## Folder: Data
 
-In this folder, you can find the processes data.
-Because, we included sensitivity analyses with regards to the compliance inclusion criterion and the item combination, we generated multiple data sets and re-ran analyses across all those in a multiverse fashion.
-In total, there are 15 different data files (all are provided in .csv, .dat and .RData format):
+In this folder, you can find the processes data. Because, we included sensitivity analyses with regards to the compliance inclusion criterion and the item combination, we generated multiple data sets and re-ran analyses across all those in a multiverse fashion. In total, there are 15 different data files (all are provided in .csv, .dat and .RData format):
 
 | Filename | Description                                                                                    |
 |----------|--------------------------------------------------------|
@@ -52,15 +42,11 @@ In total, there are 15 different data files (all are provided in .csv, .dat and 
 
 ## Folder: Scripts
 
-Note: The overall `R` script with all analyses is in the main folder.
-The file `2023_7_18_Rcode_PositiveER.R` contains the code.
-The file `2023_7_18_Rcode_PositiveER.html` contains the knitted document including the results.
+Note: The overall `R` script with all analyses is in the main folder. The file `2023_7_18_Rcode_PositiveER.R` contains the code. The file `2023_7_18_Rcode_PositiveER.html` contains the knitted document including the results.
 
 In the folder scripts, you can find the Mplus scripts (.inp files) plus the associated output (.out files).
 
-The subfolders are structured according to our research questions.
-Note that rresearch question 1a was answered using descriptive statistics in R.
-Research questions 1b-2b were answered using DSEM Models run in Mplus via R with the package `r MplusAutomation`.
+The subfolders are structured according to our research questions. Note that rresearch question 1a was answered using descriptive statistics in R. Research questions 1b-2b were answered using DSEM Models run in Mplus via R with the package `MplusAutomation`.
 
 | Subfolder | Description research question                                                                                                    |
 |-----------|-------------------------------------------------------------|
@@ -71,9 +57,8 @@ Research questions 1b-2b were answered using DSEM Models run in Mplus via R with
 | RQ2c      | Moderation effects of anhedonia on within-person relation between positive ER strategies at t and emotions at t (implementation) |
 | Templates | Mplus Templates used for looping over different data and item combinations. See `MplusAutomation` for more information.          |
 
-In each folder, the datafiles are structured like this: `RQx-ERStrategy-dataset.inp/out`.
-For instance, `RQ1b-PER_att-data0.inp` is the input file for the model for hypothesis 1b for the strategy attention for dataset 0 (the main results of the paper).
+In each folder, the datafiles are structured like this: `RQx-ERStrategy-dataset.inp/out`. For instance, `RQ1b-PER_att-data0.inp` is the input file for the model for hypothesis 1b for the strategy attention for dataset 0 (the main results of the paper).
 
 ## Folder: Tables
 
-Contains the Tables used in the paper.
+Contains the generated tables reported in the paper.
