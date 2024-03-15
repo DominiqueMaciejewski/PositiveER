@@ -72,3 +72,20 @@ In each folder, the data files are structured like this: `RQx-ERStrategy-dataset
 ## Folder: Tables
 
 Contains the generated tables reported in the paper.
+Note that the table numbering changed shortly before submission. Moreover, not all tables were generated in R. As such, the numbering is not exactly the same between the Github repo and the submitted paper.
+
+Here is an overview:
+
+| Title                               | Name in Github | Name in Paper |
+|-------------------------------------|-----------------|----------------|
+| Descriptive Statistics for the Positive ER Strategies| table_1.docx | Table 1 |
+| Emotions at t-1 and the Use of Positive ER Strategies at t - Within-Person Effects and Moderation by Anhedonia  | table_3.docx | Table 2 |
+| Use of Positive ER strategies at t and Emotions at t - Within-Person Effects and Moderation by Anhedonia | table_4.docx | Table 3 |
+| Study Details of Diary and ESM Studies on Positive ER in Daily Life | Not created in R | Supplementary Table 1 |
+| Sample Characteristics | Not created in R | Supplementary Table 2 |
+| Within-person and between-person correlation of ER strategies  | table_2.docx | Supplementary Table 3 |
+| FDR-corrected significance thresholds for 63 tested hypotheses  | Not created in R | Supplementary Table 4 |
+| Emotions at t-1 and the Use of Positive ER Strategies at t - Within-Person Effects and Moderation by Anhedonia and Depression  | table_sup1.docx | Supplementary Table 5 |
+| Use of Positive ER strategies at t and Emotions at t - Within-Person Effects and Moderation by Anhedonia | table_sup2.docx | Supplementary Table 6 |
+
+
